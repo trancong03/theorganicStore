@@ -1,6 +1,6 @@
 import { Menu, Search, ToggleRightIcon } from "lucide-react";
 import { useState } from "react";
-
+import Login from "../Pages/Login";
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeLink, setActiveLink] = useState("home");
@@ -75,7 +75,7 @@ function Navbar() {
             BLOG
           </a>
           <a
-            href=""
+            href="/login"
             onClick={() => setActiveLink("login")}
             className={`text-white px-3 py-2 ${
               activeLink === "login"
