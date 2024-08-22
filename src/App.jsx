@@ -5,8 +5,8 @@ import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/pagination";
 import { BrowserRouter, Route, Router, Routes } from "react-router-dom";
-import Home from "./UI/Home";
-import Login from "./UI/Login";
+import Home from "./Pages/Home";
+import Login from "./Pages/Login";
 function App() {
   return (
     <>

@@ -75,10 +75,10 @@ function Navbar() {
             BLOG
           </a>
           <a
-            href="#"
-            onClick={() => setActiveLink("contact")}
+            href=""
+            onClick={() => setActiveLink("login")}
             className={`text-white px-3 py-2 ${
-              activeLink === "contact"
+              activeLink === "login"
                 ? "border-b-2 border-yellow-400"
                 : "hover:bg-blue-700"
             }`}
