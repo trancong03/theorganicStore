@@ -9,9 +9,13 @@ import Home from "./Pages/Home";
 import Login from "./Pages/Login";
 import Footer from "./Components/Footer";
 import ErrorPage from "./Components/ErrorPage";
+import Navbar from "./Components/Navbar";
+import Header from "./Components/Header";
 function App() {
   return (
     <>
+      <Header />
+      <Navbar />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
