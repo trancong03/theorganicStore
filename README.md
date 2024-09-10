@@ -73,7 +73,7 @@ Nền tảng web cho người dùng với các chức năng chính:
 
 ### **Cài đặt WebForm**
 ```bash
-git clone https://github.com/your-username/webform-repository.git
+git clone https://github.com/trancong03/TheCIU_Shop_React.git
 cd webform-repository
 npm install
 npm start
