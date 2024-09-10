@@ -10,6 +10,7 @@ Dự án xây dựng hệ thống quản lý bán hàng thời trang, áp dụng
 | Trần Chí Công      | Nhóm trưởng      |
 | Phạm Hồ Đăng Huy   | Thành viên       |
 | Nguyễn Thị Hằng    | Thành viên       |
+## **Bảng Phân Công**
 [Bảng Phân Công](https://docs.google.com/spreadsheets/d/1jtM330Zux9Ye9YqD2P0_VuIq3OYpNKtii_JnZz_bvGw/edit?usp=sharing)
 
 ## **🛠️ Công nghệ sử dụng**
