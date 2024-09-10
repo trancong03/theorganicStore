@@ -25,7 +25,11 @@ Dự án xây dựng hệ thống quản lý bán hàng thời trang, áp dụng
 ### **1. 🖥️ WinForm (C#)**
 
 Ứng dụng quản lý dành cho Admin với các chức năng chính:
-
+|Chức Năng       | Vai trò          |
+|--------------------|------------------|
+| Trần Chí Công      | Nhóm trưởng      |
+| Phạm Hồ Đăng Huy   | Thành viên       |
+| Nguyễn Thị Hằng    | Thành viên       |
 - **📦 Quản lý sản phẩm:** Thêm, sửa, xóa và quản lý thông tin sản phẩm.
 - **🤝 Quản lý nhà cung cấp:** Quản lý danh sách nhà cung cấp và lịch sử giao dịch.
 - **👥 Quản lý khách hàng:** Quản lý thông tin và phân cụm khách hàng thân thiết (AI - K-Means).
