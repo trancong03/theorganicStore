@@ -22,8 +22,6 @@ Dự án xây dựng hệ thống quản lý bán hàng thời trang, áp dụng
 
 ## **📋 Mô tả nền tảng**
 
-## **📌 Yêu cầu chức năng**
-
 ### **1. WinForm (C#)**
 
 | Chức năng               | Mô tả chức năng                                                                 | Người thực hiện     |
