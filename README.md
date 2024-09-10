@@ -1,4 +1,4 @@
-![ContextDiagram drawio](https://github.com/user-attachments/assets/7bd62663-8726-451c-9766-1f0d0f0e12d6)# **🛍️ Xây dựng hệ thống bán hàng thời trang**
+# **🛍️ Xây dựng hệ thống bán hàng thời trang**
 
 **Mô tả:**  
 Dự án xây dựng hệ thống quản lý bán hàng thời trang, áp dụng AI để gợi ý sản phẩm khi người dùng đặt hàng và phân cụm khách hàng để tặng khuyến mãi. Hệ thống bao gồm 2 nền tảng chính là WebForm (ReactJS & NodeJS) và WinForm (C#).
@@ -86,7 +86,6 @@ Dự án xây dựng hệ thống quản lý bán hàng thời trang, áp dụng
 ```bash
 ```
 ### **Context Diagram**
-![Context Diagram](https://path/to/your/context-diagram.png)
 ![ContextDiagram drawio](https://github.com/user-attachments/assets/14830988-c1a8-4993-abd1-36932b998ad9)
 ### **Giải thích:**
 - **Admin** là người quản trị chính của hệ thống, có thể quản lý sản phẩm, nhà cung cấp, khách hàng, và các khuyến mãi thông qua ứng dụng **WinForm (C#)**.
