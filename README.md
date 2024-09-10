@@ -37,4 +37,43 @@ Dự án xây dựng hệ thống quản lý bán hàng thời trang, áp dụng
 
 ### **2. WebForm (ReactJS & NodeJS)**
 
-Nền tảng web cho người dùng với các
+Nền tảng web cho người dùng với các chức năng chính:
+
+- **Quản lý giao hàng:**
+  - Đặt sản phẩm: Người dùng duyệt và đặt mua trực tuyến.
+  - Theo dõi đơn hàng: Theo dõi trạng thái đơn hàng.
+  - Hủy đơn hàng: Hủy trước khi vận chuyển.
+  - Xem sản phẩm: AI gợi ý sản phẩm dựa trên lịch sử mua hàng.
+  - Feedback sản phẩm: Đánh giá và phản hồi sản phẩm.
+
+## **Yêu cầu chức năng**
+
+### **WinForm (C#)**
+- Quản lý các đối tượng: sản phẩm, nhà cung cấp, khách hàng, khuyến mãi.
+- Phân tích và báo cáo dữ liệu doanh thu, sản phẩm.
+- Sử dụng K-Means để phân cụm khách hàng.
+
+### **WebForm (ReactJS & NodeJS)**
+- Quản lý giao hàng, đặt và theo dõi đơn hàng.
+- Gợi ý sản phẩm sử dụng AI.
+- Feedback sản phẩm.
+
+## **Cài đặt**
+
+### **Yêu cầu**
+
+#### **WebForm**
+- Node.js 14.x
+- ReactJS 17.x
+- Neo4j
+
+#### **WinForm**
+- .NET Framework 4.8
+- Neo4j
+
+### **Cài đặt WebForm**
+```bash
+git clone https://github.com/your-username/webform-repository.git
+cd webform-repository
+npm install
+npm start
