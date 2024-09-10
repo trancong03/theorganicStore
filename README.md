@@ -36,7 +36,7 @@ Dự án xây dựng hệ thống quản lý bán hàng thời trang, áp dụng
 | Quản lý tài khoản        | Quản lý người dùng, phân quyền và bảo mật hệ thống                             | Trần Chí Công        |
 | Quản lý khuyến mãi       | Sử dụng AI để phân cụm khách hàng và gợi ý khuyến mãi phù hợp                  | Nguyễn Thị Hằng      |
 
-### **2. WebForm (ReactJS & NodeJS)**
+### **2.🌐 WebForm (ReactJS & NodeJS)**
 
 #### **Frontend (ReactJS)**
 
@@ -85,30 +85,11 @@ Dự án xây dựng hệ thống quản lý bán hàng thời trang, áp dụng
 ```bash
 ```
 ### **Context Diagram**
-          +------------------------+               +--------------------+
-          |                        |               |                    |
-          |      Admin (User)       |               |  Customer (User)   |
-          |                        |               |                    |
-          +-----------+------------+               +---------+----------+
-                      |                                  |
-                      |                                  |
-                      |                                  |
-      +---------------v-----------------+      +---------v----------------+
-      |                                 |      |                          |
-      |          Hệ Thống Bán Hàng      |      |       WebForm (ReactJS)   |
-      |                                 |      |                          |
-      +---------------+-----------------+      +----------+---------------+
-                      |                                 |
-                      |                                 |
-+---------------------v--------------------+      +-----v-----------------+
-|                                          |      |                        |
-|               WinForm (C#)               |      |      Backend (NodeJS)  |
-|                                          |      |                        |
-+----------+-----------+----------+--------+      +----+-------------------+
-           |           |          |                     |
-           |           |          |                     |
-  +--------v+     +----v----+   +-v--------+        +----v----+
-  | Product |     | Supplier |   | Customer |        | Database |
-  |   Mgmt  |     |   Mgmt   |   |   Mgmt   |        |  Neo4j   |
-  +--------+     +---------+   +---------+         +----------+
+![Context Diagram](https://path/to/your/context-diagram.png)
 
+### **Giải thích:**
+- **Admin** là người quản trị chính của hệ thống, có thể quản lý sản phẩm, nhà cung cấp, khách hàng, và các khuyến mãi thông qua ứng dụng **WinForm (C#)**.
+- **Customer** (khách hàng) sử dụng giao diện **WebForm (ReactJS)** để đặt sản phẩm, theo dõi đơn hàng, hủy đơn hàng, và cung cấp phản hồi về sản phẩm.
+- **WinForm (C#)** cho phép Admin thực hiện các chức năng quản lý như quản lý sản phẩm, nhà cung cấp, khách hàng, báo cáo thống kê, hóa đơn, và các khuyến mãi.
+- **Backend (NodeJS)** tương tác với cơ sở dữ liệu **Neo4j** để xử lý dữ liệu sản phẩm, khách hàng và đơn hàng. Nó cung cấp các API để frontend **WebForm (ReactJS)** có thể giao tiếp và thực hiện các chức năng như đặt hàng, hủy đơn hàng, và gợi ý sản phẩm bằng AI.
+- **Database (Neo4j)** chứa dữ liệu sản phẩm, khách hàng, nhà cung cấp, và hóa đơn.
