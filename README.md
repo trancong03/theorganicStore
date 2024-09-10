@@ -77,3 +77,9 @@ git clone https://github.com/trancong03/TheCIU_Shop_React.git
 cd webform-repository
 npm install
 npm start
+```
+### **Nguồn tham khảo**
+- KiotViet Phần Mềm Bán Hàng Thời Trang
+- Apriori AI
+- K-Means Clustering
+
