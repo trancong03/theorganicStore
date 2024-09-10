@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/eb9e7708-1a1e-480c-9254-592f78f999d9)# **🛍️ Xây dựng hệ thống bán hàng thời trang**
+# **🛍️ Xây dựng hệ thống bán hàng thời trang**
 
 **Mô tả:**  
 Dự án xây dựng hệ thống quản lý bán hàng thời trang, áp dụng AI để gợi ý sản phẩm khi người dùng đặt hàng và phân cụm khách hàng để tặng khuyến mãi. Hệ thống bao gồm 2 nền tảng chính là WebForm (ReactJS & NodeJS) và WinForm (C#).
