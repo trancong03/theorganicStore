@@ -51,4 +51,15 @@
 
 <h2>🚀 Cài đặt</h2>
 <h3>Yêu cầu</h3>
-<h4>WebForm</
+<h4>WebForm</h4>
+<ul>
+  <li>Node.js 14.x</li>
+  <li>ReactJS 17.x</li>
+  <li>Neo4j</li>
+</ul>
+
+<h4>WinForm</h4>
+<ul>
+  <li>.NET Framework 4.8</li>
+  <li>Neo4j</li>
+</ul>
