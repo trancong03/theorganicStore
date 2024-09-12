@@ -5,21 +5,23 @@ import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/pagination";
 import { BrowserRouter, Route, Router, Routes } from "react-router-dom";
-import Home from "./Pages/Home";
-import Login from "./Pages/Login";
 import Footer from "./Components/Footer";
 import ErrorPage from "./Components/ErrorPage";
 import Navbar from "./Components/Navbar";
 import Header from "./Components/Header";
+import DN from './Components/DN';
+import Home from "./Pages/Home";
 function App() {
   return (
     <>
-      <Header />
+    <div className="">
+        <Header />
+    </div>
       <Navbar />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/Dang-Nhap" element={<DN />} />
+          <Route path="/" element={<Home/>}/>
           <Route path="*" element={<ErrorPage />} />
         </Routes>
       </BrowserRouter>

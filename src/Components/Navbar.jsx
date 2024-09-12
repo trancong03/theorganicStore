@@ -1,6 +1,5 @@
 import { Menu, Search, ToggleRightIcon } from "lucide-react";
 import { useState } from "react";
-import Login from "../Pages/Login";
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeLink, setActiveLink] = useState("home");
