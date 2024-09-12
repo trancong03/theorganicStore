@@ -15,9 +15,9 @@ function App() {
   return (
     <>
     <div className="">
-        <Header />
+        <Header className="fixed top-0 left-0 w-full bg-white shadow-md z-50" />
     </div>
-      <Navbar />
+      
       <BrowserRouter>
         <Routes>
           <Route path="/Dang-Nhap" element={<DN />} />
