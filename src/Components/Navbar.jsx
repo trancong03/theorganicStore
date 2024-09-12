@@ -5,85 +5,85 @@ function Navbar() {
   const [activeLink, setActiveLink] = useState("home");
 
   return (
-    <nav className="bg-[#222222]">
+    <nav className="bg-white">
       <div className="container flex justify-between items-center">
-        <div className="md:hidden">
+        <div className="md:hidden ">
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="text-white px-3 py-2"
+            className="text-[#5b5858cc] px-3 py-2"
           >
             <Menu />
           </button>
         </div>
 
         {/* Navigation links for large screens */}
-        <div className="hidden md:flex space-x-4 mb-2">
+        <div className="hidden md:flex space-x-4 mb-2 gap-8 w-[60vw] ml-[20vw] justify-between">
           <a
             href="#"
             onClick={() => setActiveLink("home")}
-            className={`text-white px-3 py-2 ${
+            className={`text-[#5b5858cc] text-lg font-arial font-bold px-3 py-2 ${
               activeLink === "home"
-                ? "border-b-2 border-yellow-400"
-                : "hover:bg-blue-700"
+                ? "text-black"
+                : "hover:text-black"
             }`}
           >
-            TRANG CHỦ
+            Trang Chủ
           </a>
           <a
             href="#"
-            onClick={() => setActiveLink("about")}
-            className={`text-white px-3 py-2 ${
-              activeLink === "about"
-                ? "border-b-2 border-yellow-400"
-                : "hover:bg-blue-700"
+            onClick={() => setActiveLink("collection")}
+            className={`text-[#5b5858cc] text-lg font-arial font-bold px-3 py-2 ${activeLink === "collection"
+                ? "text-black"
+                : "hover:text-black"
+              }`}
+          >
+            Collection
+          </a>
+          <a
+            href="#"
+            onClick={() => setActiveLink("product")}
+            className={`text-[#5b5858cc] text-lg font-arial font-bold px-3 py-2 ${
+              activeLink === "product"
+                ? "text-black"
+                : "hover:text-black"
             }`}
           >
-            SẢN PHẨM
+            Sản Phẩm
           </a>
           <a
             href="#"
             onClick={() => setActiveLink("services")}
-            className={`text-white px-3 py-2 ${
+            className={`text-[#5b5858cc] text-lg font-arial font-bold px-3 py-2 ${
               activeLink === "services"
-                ? "border-b-2 border-yellow-400"
-                : "hover:bg-blue-700"
+                ? "text-black"
+                : "hover:text-black"
             }`}
           >
-            BEST SELLER
+           Event
           </a>
           <a
             href="#"
             onClick={() => setActiveLink("contact")}
-            className={`text-white px-3 py-2 ${
+            className={`text-[#5b5858cc] text-lg font-arial font-bold px-3 py-2 ${
               activeLink === "contact"
-                ? "border-b-2 border-yellow-400"
-                : "hover:bg-blue-700"
+                ? "text-black"
+                : "hover:text-black"
             }`}
           >
-            SALE OFF
+            Giới Thiệu
           </a>
           <a
             href="#"
-            onClick={() => setActiveLink("contact")}
-            className={`text-white px-3 py-2 ${
-              activeLink === "contact"
-                ? "border-b-2 border-yellow-400"
-                : "hover:bg-blue-700"
+            onClick={() => setActiveLink("blog")}
+            className={`text-[#5b5858cc] text-lg font-arial font-bold px-3 py-2 ${
+              activeLink === "blog"
+                ? "text-black"
+                : "hover:text-black"
             }`}
           >
-            BLOG
+            Blog
           </a>
-          <a
-            href="/login"
-            onClick={() => setActiveLink("login")}
-            className={`text-white px-3 py-2 ${
-              activeLink === "login"
-                ? "border-b-2 border-yellow-400"
-                : "hover:bg-blue-700"
-            }`}
-          >
-            SIGN UP
-          </a>
+      
         </div>
 
         {/* Slide-out menu for small screens */}
@@ -93,7 +93,7 @@ function Navbar() {
           } transition-transform duration-300 ease-in-out md:hidden`}
         >
           <div className=" px-3 py-2 mb-4 text-right">
-            <button onClick={() => setMenuOpen(false)} className="text-white ">
+            <button onClick={() => setMenuOpen(false)} className="text-[#5b5858cc] ">
               ✖
             </button>
           </div>
