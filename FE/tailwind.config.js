@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        arial: ['Arial', 'sans-serif'],
+        arial: ['Arial', 'sans-serif','Roboto'],
       },
     },
   },
