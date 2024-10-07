@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 
 import "swiper/css";
@@ -12,15 +12,37 @@ import Header from "./Components/Header";
 import DN from './Components/DN';
 import Home from "./Pages/Home";
 function App() {
+  const [showLogin, setShowLogin] = useState(false);
+  const [userInfo, setUserInfo] = useState({}); // Lưu trữ thông tin người dùng
+
+  const handleLoginClick = () => {
+    setShowLogin(true); // Khi click nút "Login", hiển thị DN
+  };
+
+  const closeLogin = () => {
+    setShowLogin(false); // Đóng form đăng nhập
+  };
+
+  const handleLoginSuccess = (data) => {
+    setUserInfo(data.user); // Cập nhật thông tin người dùng
+    localStorage.setItem('userInfo', JSON.stringify(data.user));
+    setShowLogin(false); // Đóng form đăng nhập
+  };
+
+  useEffect(() => {
+    const storedUserInfo = localStorage.getItem('userInfo');
+    if (storedUserInfo) {
+      setUserInfo(JSON.parse(storedUserInfo)); // Tải thông tin từ localStorage
+    }
+  }, []);
   return (
     <>
-    <div className="">
-        <Header className="fixed top-0 left-0 w-full bg-white shadow-md z-50" />
-    </div>
+      <Header userInfo={userInfo} setUserInfo={setUserInfo} onLoginClick={handleLoginClick} className="fixed top-0 left-0 w-full bg-white shadow-md z-50" />
+      {showLogin && <DN closeLogin={closeLogin} onLoginSuccess={handleLoginSuccess} />}
       
       <BrowserRouter>
         <Routes>
-          <Route path="/Dang-Nhap" element={<DN />} />
+          <Route path="/account" element={<DN />} />
           <Route path="/" element={<Home/>}/>
           <Route path="*" element={<ErrorPage />} />
         </Routes>
