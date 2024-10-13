@@ -1,36 +1,45 @@
-import { Heart, LogOut, Search, SettingsIcon, ShoppingCart, UserCircle } from "lucide-react";
 import React, { useState, useEffect, useRef } from "react";
+import { Heart, LogOut, Search, SettingsIcon, ShoppingCart as ShoppingCartIcon, UserCircle } from "lucide-react";
 import Navbar from "./Navbar";
+import ProductList from "./ProductList";
+import CardItemShopping from "./CartItemShopping";
 
-export default function Header({ onLoginClick, userInfo, setUserInfo, }) {
+export default function Header({ onLoginClick, userInfo, setUserInfo }) {
   const [isSticky, setIsSticky] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(userInfo ? true : false);
+  const [cartItems, setCartItems] = useState([]); // Quản lý giỏ hàng
+  const [isCartOpen, setIsCartOpen] = useState(false); // Trạng thái dropdown giỏ hàng
   const menuRef = useRef(null);
+
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 100) { // Adjust this value based on your header height
+      if (window.scrollY > 100) {
         setIsSticky(true);
       } else {
         setIsSticky(false);
       }
     };
-
     window.addEventListener('scroll', handleScroll);
-
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
+  // Hàm xử lý khi thêm sản phẩm vào giỏ hàng
+  const handleAddToCart = (item) => {
+    console.log("Item added to cart:", cartItems); // Kiểm tra item
+    setCartItems((prevItems) => [...prevItems, item]); // Cập nhật giỏ hàng
+  };
+
   const handleSettingsClick = () => {
     if (!userInfo) {
       onLoginClick();
-    }
-    else {
+    } else {
       navigate('/account');
     }
   };
+
   // Đóng menu khi nhấp ra ngoài
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -54,9 +63,10 @@ export default function Header({ onLoginClick, userInfo, setUserInfo, }) {
     setIsLoggedIn(!isLoggedIn);
     setIsMenuOpen(false);
   };
+
   return (
     <div className={`transition-all duration-300 ${isSticky ? 'fixed top-0 left-0 w-full shadow-md z-50' : ''}`}>
-      <div className="h-[10vh] flex items-center bg-white p-3 ">
+      <div className="h-[10vh] flex items-center bg-white p-3">
         <div className="ml-[15vw] mr-5">
           <img
             className="h-12 sm:h-8 md:h-10 lg:h-16 w-auto"
@@ -76,30 +86,61 @@ export default function Header({ onLoginClick, userInfo, setUserInfo, }) {
         </div>
         <div className="ml-3 flex gap-4 justify-center items-center">
           <Heart />
-          <ShoppingCart />
-          <div className="px-3 py-2 h-10 w-[20vw] bg-transparent rounded-3xl flex items-center justify-start relative ">
+
+          {/* Icon giỏ hàng */}
+          <div onMouseEnter={() => setIsCartOpen(true)} onMouseLeave={() => setIsCartOpen(false)} className="relative cursor-pointer">
+            <ShoppingCartIcon />
+            {cartItems.length > 0 && (
+              <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">
+                {cartItems.length}
+              </span>
+            )}
+
+            {/* Dropdown giỏ hàng */}
+            {isCartOpen && (
+              <div className="absolute left-15 mt-2 w-[20rem] bg-white border rounded-lg shadow-lg p-4 z-50">
+                <h3 className="text-lg font-semibold mb-2">Sản phẩm trong giỏ hàng</h3>
+
+                {cartItems.length > 0 ? (
+                  <ul>
+                    {cartItems.map((item, index) => (
+                      <li key={index}>
+                        <CartItemShopping
+                          name={item.name}
+                          price={item.price}
+                          images={item.images}
+                        />
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-gray-500">Giỏ hàng của bạn trống.</p>
+                )}
+
+                {/* Truyền hàm handleAddToCart xuống ProductList */}
+                {/* <ProductList onAddToCart={handleAddToCart} /> */}
+              </div>
+            )}
+          </div>
+        
+
+          <div className="px-3 py-2 h-10 w-[20vw] bg-transparent rounded-3xl flex items-center justify-start relative">
             <nav className="relative">
               <a
-                onClick={() => {
-                  setIsMenuOpen(!isMenuOpen); 
-                }}
-                className={`text-[#5b5858cc] flex gap-2 items-center font-arial px-3 py-2`}
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="text-[#5b5858cc] flex gap-2 items-center font-arial px-3 py-2"
               >
-
                 <img
                   src={userInfo ? `image/${userInfo.avatar}` : "/image/icon.png"}
                   alt=""
                   className="w-12 h-12 rounded-full"
                 />
                 {userInfo?.fullname || "Tài khoản"}
-
               </a>
 
-              {/* Menu con bên dưới */}
+              {/* Menu người dùng */}
               {isMenuOpen && (
-                <div
-                  ref={menuRef}
-                  className="absolute top-[8.5vh] mt-2 bg-white border rounded shadow-md  w-48 z-50">
+                <div ref={menuRef} className="absolute top-[8.5vh] mt-2 bg-white border rounded shadow-md  w-48 z-50">
                   <ul>
                     <li className="py-2 px-3 hover:bg-gray-100">
                       <button className="w-full text-left flex items-center gap-2" onClick={handleSettingsClick}>
@@ -119,7 +160,7 @@ export default function Header({ onLoginClick, userInfo, setUserInfo, }) {
             </nav>
           </div>
         </div>
-     </div>
+      </div>
       <Navbar />
     </div>
   );
