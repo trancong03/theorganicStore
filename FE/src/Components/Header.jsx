@@ -2,13 +2,12 @@ import React, { useState, useEffect, useRef } from "react";
 import { Heart, LogOut, Search, SettingsIcon, ShoppingCart as ShoppingCartIcon, UserCircle } from "lucide-react";
 import Navbar from "./Navbar";
 import ProductList from "./ProductList";
-import CardItemShopping from "./CartItemShopping";
+import CartItemShopping from "../Components/CartItemShopping";
 
-export default function Header({ onLoginClick, userInfo, setUserInfo }) {
+export default function Header({ onLoginClick, userInfo, setUserInfo, cartItems }) {
   const [isSticky, setIsSticky] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(userInfo ? true : false);
-  const [cartItems, setCartItems] = useState([]); // Quản lý giỏ hàng
   const [isCartOpen, setIsCartOpen] = useState(false); // Trạng thái dropdown giỏ hàng
   const menuRef = useRef(null);
 
@@ -26,12 +25,7 @@ export default function Header({ onLoginClick, userInfo, setUserInfo }) {
     };
   }, []);
 
-  // Hàm xử lý khi thêm sản phẩm vào giỏ hàng
-  const handleAddToCart = (item) => {
-    console.log("Item added to cart:", cartItems); // Kiểm tra item
-    setCartItems((prevItems) => [...prevItems, item]); // Cập nhật giỏ hàng
-  };
-
+ 
   const handleSettingsClick = () => {
     if (!userInfo) {
       onLoginClick();
@@ -105,7 +99,7 @@ export default function Header({ onLoginClick, userInfo, setUserInfo }) {
                   <ul>
                     {cartItems.map((item, index) => (
                       <li key={index}>
-                        <CartItemShopping
+                        <CartItemShopping 
                           name={item.name}
                           price={item.price}
                           images={item.images}
@@ -117,8 +111,6 @@ export default function Header({ onLoginClick, userInfo, setUserInfo }) {
                   <p className="text-gray-500">Giỏ hàng của bạn trống.</p>
                 )}
 
-                {/* Truyền hàm handleAddToCart xuống ProductList */}
-                {/* <ProductList onAddToCart={handleAddToCart} /> */}
               </div>
             )}
           </div>

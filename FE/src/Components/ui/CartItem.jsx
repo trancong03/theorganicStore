@@ -2,7 +2,6 @@ export default function CartItem({ name, price, images = [], onAddToCart }) {
   const defaultImage = 'default.jpg';
 
   const handleAddToCart = () => {
-    console.log("Add to cart clicked for:", { name, price, images }); // Log the item details
     onAddToCart(); // Call the passed function
   };
 

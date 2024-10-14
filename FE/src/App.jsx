@@ -38,13 +38,12 @@ function App() {
   const [cartItems, setCartItems] = useState([]);
 
   const handleAddToCart = (item) => {
-    console.log("Item added to cart:", item); // Log the item being added
     setCartItems((prevItems) => [...prevItems, item]);
   };
   return (
     <>
-      <Header userInfo={userInfo} setUserInfo={setUserInfo} onLoginClick={handleLoginClick} className="fixed top-0 left-0 w-full bg-white shadow-md z-50" />
-      {showLogin && <DN closeLogin={closeLogin} onLoginSuccess={handleLoginSuccess} cartItems={cartItems}/>}
+      <Header userInfo={userInfo} setUserInfo={setUserInfo} onLoginClick={handleLoginClick} cartItems={cartItems} className="fixed top-0 left-0 w-full bg-white shadow-md z-50" />
+      {showLogin && <DN closeLogin={closeLogin} onLoginSuccess={handleLoginSuccess} />}
       
       <BrowserRouter>
         <Routes>
