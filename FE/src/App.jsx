@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
-
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/pagination";
-import { BrowserRouter, Route, Router, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Footer from "./Components/Footer";
 import ErrorPage from "./Components/ErrorPage";
 import Navbar from "./Components/Navbar";
@@ -24,15 +23,15 @@ function App() {
   };
 
   const handleLoginSuccess = (data) => {
-    setUserInfo(data.user); // Cập nhật thông tin người dùng
-    localStorage.setItem('userInfo', JSON.stringify(data.user));
-    setShowLogin(false); // Đóng form đăng nhập
+    setUserInfo(data.person); 
+    localStorage.setItem('userInfo', JSON.stringify(data.person));
+    setShowLogin(false); 
   };
 
   useEffect(() => {
     const storedUserInfo = localStorage.getItem('userInfo');
     if (storedUserInfo) {
-      setUserInfo(JSON.parse(storedUserInfo)); // Tải thông tin từ localStorage
+      setUserInfo(JSON.parse(storedUserInfo)); 
     }
   }, []);
   const [cartItems, setCartItems] = useState([]);

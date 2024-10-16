@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Heart, LogOut, Search, SettingsIcon, ShoppingCart as ShoppingCartIcon, UserCircle } from "lucide-react";
 import Navbar from "./Navbar";
-import ProductList from "./ProductList";
 import CartItemShopping from "../Components/CartItemShopping";
 
 export default function Header({ onLoginClick, userInfo, setUserInfo, cartItems }) {
@@ -36,6 +35,8 @@ export default function Header({ onLoginClick, userInfo, setUserInfo, cartItems 
 
   // Đóng menu khi nhấp ra ngoài
   useEffect(() => {
+    console.log(userInfo);
+    
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
         setIsMenuOpen(false);
@@ -123,11 +124,11 @@ export default function Header({ onLoginClick, userInfo, setUserInfo, cartItems 
                 className="text-[#5b5858cc] flex gap-2 items-center font-arial px-3 py-2"
               >
                 <img
-                  src={userInfo ? `image/${userInfo.avatar}` : "/image/icon.png"}
+                  src={"/image/icon.png"}
                   alt=""
                   className="w-12 h-12 rounded-full"
                 />
-                {userInfo?.fullname || "Tài khoản"}
+                {userInfo?.name || "Tài khoản"}
               </a>
 
               {/* Menu người dùng */}

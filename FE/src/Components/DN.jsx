@@ -11,26 +11,19 @@ const DN = ({ closeLogin, onLoginSuccess }) => {
     const [error, setError] = useState('');
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // Kiểm tra username và password
         if (!username || !password) {
             setError("Username và Password không được để trống.");
             return;
         }
-
-        // Kiểm tra định dạng username (ví dụ: không chứa ký tự đặc biệt)
         const usernameRegex = /^[a-zA-Z0-9_]+$/;
         if (!usernameRegex.test(username)) {
             setError("Username chỉ được chứa chữ cái, số và dấu gạch dưới.");
             return;
         }
-
-        // Kiểm tra độ dài password (ví dụ: ít nhất 6 ký tự)
         if (password.length < 5) {
             setError("Password phải có ít nhất 5 ký tự.");
             return;
         }
-
-        // Nếu tất cả đều hợp lệ, thực hiện gửi dữ liệu
         setError(""); // Xóa lỗi trước khi gửi
         try {
             const response = await fetch('http://127.0.0.1:8000/api/login/', {
@@ -40,13 +33,11 @@ const DN = ({ closeLogin, onLoginSuccess }) => {
                 },
                 body: JSON.stringify({ username, password }),
             });
-
             if (!response.ok) {
                 throw new Error('Thông tin xác thực không hợp lệ');
             }
             const data = await response.json();
             onLoginSuccess(data);
-
         } catch (err) {
             setError(err.message);
         }
