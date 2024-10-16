@@ -5,10 +5,12 @@ import { BadgeX } from 'lucide-react';
 
 const DN = ({ closeLogin, onLoginSuccess }) => {
     const [isRightPanelActive, setIsRightPanelActive] = useState(false);
-    const formRef = useRef(null); // Dùng để theo dõi khu vực form
+    const formRef = useRef(null);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false); // Thêm state loading
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!username || !password) {
@@ -25,6 +27,7 @@ const DN = ({ closeLogin, onLoginSuccess }) => {
             return;
         }
         setError(""); // Xóa lỗi trước khi gửi
+        setLoading(true); // Bật chế độ loading
         try {
             const response = await fetch('http://127.0.0.1:8000/api/login/', {
                 method: 'POST',
@@ -40,6 +43,8 @@ const DN = ({ closeLogin, onLoginSuccess }) => {
             onLoginSuccess(data);
         } catch (err) {
             setError(err.message);
+        } finally {
+            setLoading(false); // Tắt chế độ loading
         }
     };
 
@@ -51,7 +56,6 @@ const DN = ({ closeLogin, onLoginSuccess }) => {
         setIsRightPanelActive(false);
     };
 
-    // Đóng form khi nhấn ra ngoài khu vực form
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (formRef.current && !formRef.current.contains(event.target)) {
@@ -69,7 +73,7 @@ const DN = ({ closeLogin, onLoginSuccess }) => {
             <div
                 className={`container ${isRightPanelActive ? 'right-panel-active' : ''}`}
                 id="container"
-                ref={formRef} // Tham chiếu form để theo dõi sự kiện nhấn ra ngoài
+                ref={formRef}
             >
                 {/* Nút đóng (X) */}
                 <button className="close-button " onClick={closeLogin}>
@@ -123,10 +127,10 @@ const DN = ({ closeLogin, onLoginSuccess }) => {
                             {error && <p className="error">{error}</p>}
                         </span>
                         <a href="#">Forgot your password?</a>
-                        <button type="submit">Sign In</button>
+                        <button type="submit" disabled={loading}> {/* Disable button khi loading */}
+                            {loading ? 'Đang đăng nhập...' : 'Sign In'} {/* Hiển thị thông điệp loading */}
+                        </button>
                     </form>
-
-
                 </div>
 
                 <div className="overlay-container">

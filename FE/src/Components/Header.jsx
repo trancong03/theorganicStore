@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Heart, LogOut, Search, SettingsIcon, ShoppingCart as ShoppingCartIcon, BellRing, Info, ListOrdered, Wallet } from "lucide-react";
+import { Heart, LogOut, Search, ShoppingCart as ShoppingCartIcon, BellRing, Info, ListOrdered, Wallet } from "lucide-react";
 import Navbar from "./Navbar";
 import CartItemShopping from "../Components/CartItemShopping";
 import { faLocationDot, } from '@fortawesome/free-solid-svg-icons';
@@ -8,7 +8,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export default function Header({ onLoginClick, userInfo, setUserInfo, cartItems }) {
   const [isSticky, setIsSticky] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(userInfo ? true : false);
   const [isCartOpen, setIsCartOpen] = useState(false); // Trạng thái dropdown giỏ hàng
   const menuRef = useRef(null);
   const navigate = useNavigate();
@@ -27,13 +26,7 @@ export default function Header({ onLoginClick, userInfo, setUserInfo, cartItems 
   }, []);
 
  
-  const handleSettingsClick = () => {
-    if (!userInfo) {
-      onLoginClick();
-    } else {
-      navigate('/account');
-    }
-  };
+ 
   useEffect(() => {
     console.log(userInfo);
     
@@ -54,7 +47,7 @@ export default function Header({ onLoginClick, userInfo, setUserInfo, cartItems 
       localStorage.removeItem('userInfo');
       navigate('/');
     }
-    if (userInfo == null || !userInfo.fullname) {
+    if (userInfo == null || !userInfo.name) {
       onLoginClick();
     }
     setIsMenuOpen(false); // Đóng menu
@@ -125,7 +118,7 @@ export default function Header({ onLoginClick, userInfo, setUserInfo, cartItems 
                 className="text-[#5b5858cc] flex gap-2 items-center font-arial px-3 py-2"
               >
                 <img
-                  src={"/image/icon.png"}
+                  src={userInfo && userInfo.avatar ? `/image/${userInfo.avatar}` : "/image/icon.png"}
                   alt=""
                   className="w-12 h-12 rounded-full"
                 />
@@ -157,7 +150,7 @@ export default function Header({ onLoginClick, userInfo, setUserInfo, cartItems 
                     <li className='flex justify-start ml-3 items-center  hover:bg-gray-200'
                       onClick={handleAuthClick}>
                       <LogOut />
-                      <a href="/logout" className="block p-2 rounded">{userInfo ? "Logout" : "Login"}</a></li>
+                      <a className="block p-2 rounded">{userInfo == null || !userInfo.name ? "Login" : "Logout"}</a></li>
                     <li className='flex justify-start ml-3 items-center  hover:bg-gray-200'
                       onClick={handleAuthClick}></li>
                     

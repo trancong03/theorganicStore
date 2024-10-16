@@ -12,12 +12,14 @@ class AccountService:
                 account = record.get('a', {}) 
                 person = record.get('p', {})   
                 return {
+                    'iduser':person.get('PersonID'),
                     'name': person.get('Name'),  
                     'email': person.get('Email'),
                     'phone': person.get('Phone'),
                     'address': person.get('Address'),
                     'birth_date': person.get('BirthDate'),
                     'gender': person.get('Gender'),
+                    'avatar': person.get('Avatar'),
                     'role': account.get('Role'),   
                 }
             return None

@@ -13,10 +13,10 @@ export default function InfomationAccount({ user, setUserInfo }) {
             address: address
         });
         toggleLocationSelector();
-    };
+    };``
     const saveUserInfo = async () => {
         try {
-            const response = await fetch(`http://localhost:8000/api/users/${user.iduser.trim()}/`, {
+            const response = await fetch(`http://localhost:8000/api/person/${user.iduser}/`, {
                 method: 'PUT',  // Thay bằng 'PATCH' nếu chỉ cập nhật một số trường
                 headers: {
                     'Content-Type': 'application/json',
@@ -46,6 +46,7 @@ export default function InfomationAccount({ user, setUserInfo }) {
             alert('Có lỗi xảy ra khi cập nhật thông tin!');
         }
     };
+
     const [avatarImage, setAvatarImage] = useState(`image/${user.avatar}`); // Thay 'default-avatar.jpg' bằng đường dẫn tới hình ảnh mặc định
 
     useEffect(() => {

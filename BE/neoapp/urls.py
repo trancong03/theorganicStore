@@ -1,6 +1,6 @@
 from django.urls import path
-from neoapp import views
-
+from neoapp.views import Person,Account
 urlpatterns = [
-    path('login/', views.login_view, name='login'),
+    path('login/', Account.login_view, name='login'),
+    path('person/<int:person_id>/', Person.update_person, name='update_person'),
 ]
