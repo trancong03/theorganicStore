@@ -35,7 +35,9 @@ function App() {
     if (storedUserInfo) {
       setUserInfo(JSON.parse(storedUserInfo)); 
     }
+    console.log(userInfo);
   }, []);
+
   const [cartItems, setCartItems] = useState([]);
 
   const handleAddToCart = (item) => {

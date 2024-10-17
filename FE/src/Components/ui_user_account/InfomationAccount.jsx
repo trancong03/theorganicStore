@@ -15,14 +15,15 @@ export default function InfomationAccount({ user, setUserInfo }) {
         toggleLocationSelector();
     };``
     const saveUserInfo = async () => {
-        try {
+            try {
+
             const response = await fetch(`http://localhost:8000/api/person/${user.iduser}/`, {
-                method: 'PUT',  // Thay bằng 'PATCH' nếu chỉ cập nhật một số trường
+                method: 'PUT',  
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    fullname: user.fullname,
+                    name: user.name,
                     email: user.email,
                     address: user.address,
                     phone: user.phone,
@@ -32,15 +33,15 @@ export default function InfomationAccount({ user, setUserInfo }) {
                     birthdate: user.birthdate,
                 }),
             });
-
-            if (!response.ok) {
-                throw new Error('Something went wrong!');
-            }
-
+                if (!response.ok) {
+                    const errorResponse = await response.json();
+                    console.error('Error response:', errorResponse);
+                    throw new Error('Something went wrong!');
+                }
             const result = await response.json();
-            console.log('User updated:', result);
-            localStorage.setItem('userInfo', JSON.stringify(result));
-            alert('Thông tin đã được cập nhật!');
+            console.log(result.person);
+            localStorage.setItem('userInfo', JSON.stringify(result.person) );
+            alert("Cập nhật thông tin thành công");
         } catch (error) {
             console.error('Error updating user:', error);
             alert('Có lỗi xảy ra khi cập nhật thông tin!');
@@ -48,27 +49,48 @@ export default function InfomationAccount({ user, setUserInfo }) {
     };
 
     const [avatarImage, setAvatarImage] = useState(`image/${user.avatar}`); // Thay 'default-avatar.jpg' bằng đường dẫn tới hình ảnh mặc định
-
+    const [avatarFile, setAvatarFile] = useState(null);
     useEffect(() => {
         setAvatarImage(`/image/${user.avatar || 'cong.jpg'}`);
     }, [user]);
-    const handleSubmit = async () => {
 
+    const saveAvatar = async (file) => {
+        if (!file) return;
+        const fileName = file.name;
+        const data = { avatar: fileName };
+        try {
+            const response = await fetch(`http://localhost:8000/api/person-update-avatar/${user.iduser}/`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json', 
+                },
+                body: JSON.stringify(data), 
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to upload avatar');
+            }
+            const updatedUserInfo = { ...user, avatar: fileName }; 
+            setUserInfo(updatedUserInfo)
+            localStorage.setItem('userInfo', JSON.stringify(updatedUserInfo));
+        } catch (error) {
+            console.error(error.message);
+        }
     };
+
     const handleAvatarChange = (event) => {
         const file = event.target.files[0];
         if (file) {
             const reader = new FileReader();
             reader.onloadend = () => {
-                setAvatarImage(reader.result);
+                setAvatarImage(reader.result); // Cập nhật hình ảnh xem trước
+                saveAvatar(file); 
             };
-            setAvatarFile(file); // Lưu file để gửi lên máy chủ
+            setAvatarFile(file);
             reader.readAsDataURL(file);
         }
-        handleSubmit();
     };
-    console.log(user);
-    
+
   return (
       <div className='h-auto shadow-md bg-white p-4 w-full'>
           <h2 className='text-lg font-bold mb-5'>Ảnh đại diện</h2>
@@ -83,6 +105,7 @@ export default function InfomationAccount({ user, setUserInfo }) {
                   <input
                       type="file"
                       accept="image/*"
+                      onSubmit={saveAvatar}
                       onChange={handleAvatarChange}
                       id="avatar-upload"
                       className="hidden"
@@ -105,7 +128,7 @@ export default function InfomationAccount({ user, setUserInfo }) {
                           id="name"
                           name="name"
                           value={user.name || ""}
-                          onChange={(e) => setUserInfo({ ...user, name: e.target.value })}
+                          onChange={(e) => setUserInfo({ ...user,name: e.target.value })}
                           className="w-full focus:outline-none text-slate-400  font-bold"
                       />
                   </div>

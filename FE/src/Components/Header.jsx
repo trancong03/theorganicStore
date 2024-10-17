@@ -24,8 +24,6 @@ export default function Header({ onLoginClick, userInfo, setUserInfo, cartItems 
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
-
- 
  
   useEffect(() => {
     console.log(userInfo);
@@ -75,7 +73,6 @@ export default function Header({ onLoginClick, userInfo, setUserInfo, cartItems 
         </div>
         <div className="ml-3 flex gap-4 justify-center items-center">
           <Heart />
-
           {/* Icon giỏ hàng */}
           <div onMouseEnter={() => setIsCartOpen(true)} onMouseLeave={() => setIsCartOpen(false)} className="relative cursor-pointer">
             <ShoppingCartIcon />
@@ -89,17 +86,10 @@ export default function Header({ onLoginClick, userInfo, setUserInfo, cartItems 
             {isCartOpen && (
               <div className="absolute left-15 mt-2 w-[20rem] bg-white border rounded-lg shadow-lg p-4 z-50">
                 <h3 className="text-lg font-semibold mb-2">Sản phẩm trong giỏ hàng</h3>
-
                 {cartItems.length > 0 ? (
                   <ul>
                     {cartItems.map((item, index) => (
-                      <li key={index}>
-                        <CartItemShopping 
-                          name={item.name}
-                          price={item.price}
-                          images={item.images}
-                        />
-                      </li>
+                      <li key={index}><CartItemShopping name={item.name} price={item.price}images={item.images}/> </li>
                     ))}
                   </ul>
                 ) : (
