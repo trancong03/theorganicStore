@@ -1,6 +1,6 @@
 import React from 'react';
 
-const CartItemShopping = ({ name, price, images }) => {
+const CartItemShopping = ({id, name, price, images }) => {
   return (
     <div className="flex items-center justify-between p-2 border-b">
       <div className="flex items-center">

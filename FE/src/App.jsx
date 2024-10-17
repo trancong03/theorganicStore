@@ -9,12 +9,14 @@ import ErrorPage from "./Components/ErrorPage";
 import Header from "./Components/Header";
 import DN from './Components/DN';
 import Home from "./Pages/Home";
+import Cart from "./Pages/Cart";
 import Account from './Pages/Account';
 import InfomationAccount from "./Components/ui_user_account/InfomationAccount";
 import ResetPassWord from "./Components/ui_user_account/ResetPassWord";
 function App() {
   const [showLogin, setShowLogin] = useState(false);
   const [userInfo, setUserInfo] = useState({}); // Lưu trữ thông tin người dùng
+  const [cartItems, setCartItems] = useState([]);
 
   const handleLoginClick = () => {
     setShowLogin(true); // Khi click nút "Login", hiển thị DN
@@ -38,30 +40,33 @@ function App() {
     console.log(userInfo);
   }, []);
 
-  const [cartItems, setCartItems] = useState([]);
-
   const handleAddToCart = (item) => {
-    setCartItems((prevItems) => [...prevItems, item]);
+    // Check if the item with the same ID already exists in the cart
+    const isDuplicate = cartItems.some(cartItem => cartItem.id === item.id);
+    
+    if (!isDuplicate) {
+      setCartItems((prevItems) => [...prevItems, item]);
+    } else {
+      alert("Sản phẩm đã có trong giỏ hàng!"); // Alert the user about the duplicate item
+    }
   };
-  console.log(userInfo);
   
   return (
-    <>
       <BrowserRouter>
         <Header userInfo={userInfo} setUserInfo={setUserInfo} onLoginClick={handleLoginClick} cartItems={cartItems} className="fixed top-0 left-0 w-full bg-white shadow-md z-50" />
         {showLogin && <DN closeLogin={closeLogin} onLoginSuccess={handleLoginSuccess} />}
 
         <Routes>
           <Route path="/" element={<Home onAddToCart={handleAddToCart}/>}/>
+          <Route path="/cart" element={<Cart cartItems={cartItems} />} />
           <Route path="/account/*" element={<Account user={userInfo} setUserInfo={setUserInfo} />}>
             <Route path="info" element={<InfomationAccount user={userInfo} setUserInfo={setUserInfo} />} />
             <Route path="reset-password" element={<ResetPassWord user={userInfo} />} />
           </Route>
           <Route path="*" element={<ErrorPage />} />
         </Routes>
-      </BrowserRouter>
       <Footer />
-    </>
+    </BrowserRouter>
   );
 }
 
