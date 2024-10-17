@@ -5,33 +5,29 @@ import { BadgeX } from 'lucide-react';
 
 const DN = ({ closeLogin, onLoginSuccess }) => {
     const [isRightPanelActive, setIsRightPanelActive] = useState(false);
-    const formRef = useRef(null); // Dùng để theo dõi khu vực form
+    const formRef = useRef(null);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false); // Thêm state loading
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // Kiểm tra username và password
         if (!username || !password) {
             setError("Username và Password không được để trống.");
             return;
         }
-
-        // Kiểm tra định dạng username (ví dụ: không chứa ký tự đặc biệt)
         const usernameRegex = /^[a-zA-Z0-9_]+$/;
         if (!usernameRegex.test(username)) {
             setError("Username chỉ được chứa chữ cái, số và dấu gạch dưới.");
             return;
         }
-
-        // Kiểm tra độ dài password (ví dụ: ít nhất 6 ký tự)
         if (password.length < 5) {
             setError("Password phải có ít nhất 5 ký tự.");
             return;
         }
-
-        // Nếu tất cả đều hợp lệ, thực hiện gửi dữ liệu
         setError(""); // Xóa lỗi trước khi gửi
+        setLoading(true); // Bật chế độ loading
         try {
             const response = await fetch('http://127.0.0.1:8000/api/login/', {
                 method: 'POST',
@@ -40,15 +36,15 @@ const DN = ({ closeLogin, onLoginSuccess }) => {
                 },
                 body: JSON.stringify({ username, password }),
             });
-
             if (!response.ok) {
                 throw new Error('Thông tin xác thực không hợp lệ');
             }
             const data = await response.json();
             onLoginSuccess(data);
-
         } catch (err) {
             setError(err.message);
+        } finally {
+            setLoading(false); // Tắt chế độ loading
         }
     };
 
@@ -60,7 +56,6 @@ const DN = ({ closeLogin, onLoginSuccess }) => {
         setIsRightPanelActive(false);
     };
 
-    // Đóng form khi nhấn ra ngoài khu vực form
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (formRef.current && !formRef.current.contains(event.target)) {
@@ -78,7 +73,7 @@ const DN = ({ closeLogin, onLoginSuccess }) => {
             <div
                 className={`container ${isRightPanelActive ? 'right-panel-active' : ''}`}
                 id="container"
-                ref={formRef} // Tham chiếu form để theo dõi sự kiện nhấn ra ngoài
+                ref={formRef}
             >
                 {/* Nút đóng (X) */}
                 <button className="close-button " onClick={closeLogin}>
@@ -132,10 +127,10 @@ const DN = ({ closeLogin, onLoginSuccess }) => {
                             {error && <p className="error">{error}</p>}
                         </span>
                         <a href="#">Forgot your password?</a>
-                        <button type="submit">Sign In</button>
+                        <button type="submit" disabled={loading}> {/* Disable button khi loading */}
+                            {loading ? 'Đang đăng nhập...' : 'Sign In'} {/* Hiển thị thông điệp loading */}
+                        </button>
                     </form>
-
-
                 </div>
 
                 <div className="overlay-container">

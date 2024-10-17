@@ -6,12 +6,13 @@ import "swiper/css/pagination";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Footer from "./Components/Footer";
 import ErrorPage from "./Components/ErrorPage";
-import Navbar from "./Components/Navbar";
 import Header from "./Components/Header";
 import DN from './Components/DN';
 import Home from "./Pages/Home";
 import Cart from "./Pages/Cart";
-
+import Account from './Pages/Account';
+import InfomationAccount from "./Components/ui_user_account/InfomationAccount";
+import ResetPassWord from "./Components/ui_user_account/ResetPassWord";
 function App() {
   const [showLogin, setShowLogin] = useState(false);
   const [userInfo, setUserInfo] = useState({}); // Lưu trữ thông tin người dùng
@@ -26,16 +27,17 @@ function App() {
   };
 
   const handleLoginSuccess = (data) => {
-    setUserInfo(data.user); // Cập nhật thông tin người dùng
-    localStorage.setItem('userInfo', JSON.stringify(data.user));
-    setShowLogin(false); // Đóng form đăng nhập
+    setUserInfo(data.person); 
+    localStorage.setItem('userInfo', JSON.stringify(data.person));
+    setShowLogin(false); 
   };
 
   useEffect(() => {
     const storedUserInfo = localStorage.getItem('userInfo');
     if (storedUserInfo) {
-      setUserInfo(JSON.parse(storedUserInfo)); // Tải thông tin từ localStorage
+      setUserInfo(JSON.parse(storedUserInfo)); 
     }
+    console.log(userInfo);
   }, []);
 
   const handleAddToCart = (item) => {
@@ -48,19 +50,20 @@ function App() {
       alert("Sản phẩm đã có trong giỏ hàng!"); // Alert the user about the duplicate item
     }
   };
-
+  
   return (
-    <BrowserRouter>
-      <Header userInfo={userInfo} setUserInfo={setUserInfo} onLoginClick={handleLoginClick} cartItems={cartItems} />
-      {showLogin && <DN closeLogin={closeLogin} onLoginSuccess={handleLoginSuccess} />}
-      
-      <Routes>
-        <Route path="/account" element={<DN />} />
-        <Route path="/cart" element={<Cart cartItems={cartItems}/>} />
-        <Route path="/" element={<Home onAddToCart={handleAddToCart} />} />
-        <Route path="*" element={<ErrorPage />} />
-      </Routes>
+      <BrowserRouter>
+        <Header userInfo={userInfo} setUserInfo={setUserInfo} onLoginClick={handleLoginClick} cartItems={cartItems} className="fixed top-0 left-0 w-full bg-white shadow-md z-50" />
+        {showLogin && <DN closeLogin={closeLogin} onLoginSuccess={handleLoginSuccess} />}
 
+        <Routes>
+          <Route path="/" element={<Home onAddToCart={handleAddToCart}/>}/>
+          <Route path="/account/*" element={<Account user={userInfo} setUserInfo={setUserInfo} />}>
+            <Route path="info" element={<InfomationAccount user={userInfo} setUserInfo={setUserInfo} />} />
+            <Route path="reset-password" element={<ResetPassWord user={userInfo} />} />
+          </Route>
+          <Route path="*" element={<ErrorPage />} />
+        </Routes>
       <Footer />
     </BrowserRouter>
   );

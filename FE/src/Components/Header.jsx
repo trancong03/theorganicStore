@@ -1,15 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Heart, LogOut, Search, SettingsIcon, ShoppingCart as ShoppingCartIcon, UserCircle } from "lucide-react";
+import { Heart, LogOut, Search, ShoppingCart as ShoppingCartIcon, BellRing, Info, ListOrdered, Wallet } from "lucide-react";
 import Navbar from "./Navbar";
-import ProductList from "./ProductList";
 import CartItemShopping from "../Components/CartItemShopping";
+import { faLocationDot, } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
-
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export default function Header({ onLoginClick, userInfo, setUserInfo, cartItems }) {
   const [isSticky, setIsSticky] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(userInfo ? true : false);
   const [isCartOpen, setIsCartOpen] = useState(false); // Trạng thái dropdown giỏ hàng
   const menuRef = useRef(null);
   const navigate = useNavigate();
@@ -26,18 +24,10 @@ export default function Header({ onLoginClick, userInfo, setUserInfo, cartItems 
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
-
  
-  const handleSettingsClick = () => {
-    if (!userInfo) {
-      onLoginClick();
-    } else {
-      navigate('/account');
-    }
-  };
-
-  // Đóng menu khi nhấp ra ngoài
   useEffect(() => {
+    console.log(userInfo);
+    
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
         setIsMenuOpen(false);
@@ -50,14 +40,15 @@ export default function Header({ onLoginClick, userInfo, setUserInfo, cartItems 
   }, [menuRef]);
 
   const handleAuthClick = () => {
-    if (isLoggedIn) {
-      setUserInfo(null); // Đặt lại thông tin người dùng
-      setIsLoggedIn(false); // Cập nhật trạng thái đăng nhập
-    } else {
+    if (userInfo != null || userInfo) {
+      setUserInfo(null);
+      localStorage.removeItem('userInfo');
+      navigate('/');
+    }
+    if (userInfo == null || !userInfo.name) {
       onLoginClick();
     }
-    setIsLoggedIn(!isLoggedIn);
-    setIsMenuOpen(false);
+    setIsMenuOpen(false); // Đóng menu
   };
 const handleCartClick = () => {
     navigate('/cart'); // Navigate to the /cart page
@@ -84,7 +75,6 @@ const handleCartClick = () => {
         </div>
         <div className="ml-3 flex gap-4 justify-center items-center">
           <Heart />
-
           {/* Icon giỏ hàng */}
           <div onClick={handleCartClick} onMouseEnter={() => setIsCartOpen(true)} onMouseLeave={() => setIsCartOpen(false)} className="relative cursor-pointer">
             <ShoppingCartIcon />
@@ -98,7 +88,6 @@ const handleCartClick = () => {
             {isCartOpen && (
               <div className="absolute left-15 mt-2 w-[20rem] bg-white border rounded-lg shadow-lg p-4 z-50">
                 <h3 className="text-lg font-semibold mb-2">Sản phẩm trong giỏ hàng</h3>
-
                 {cartItems.length > 0 ? (
                   <ul>
                     {cartItems.map((item, index) => (
@@ -128,29 +117,42 @@ const handleCartClick = () => {
                 className="text-[#5b5858cc] flex gap-2 items-center font-arial px-3 py-2"
               >
                 <img
-                  src={userInfo ? `image/${userInfo.avatar}` : "/image/icon.png"}
+                  src={userInfo && userInfo.avatar ? `/image/${userInfo.avatar}` : "/image/icon.png"}
                   alt=""
                   className="w-12 h-12 rounded-full"
                 />
-                {userInfo?.fullname || "Tài khoản"}
+                {userInfo?.name || "Tài khoản"}
               </a>
 
               {/* Menu người dùng */}
               {isMenuOpen && (
-                <div ref={menuRef} className="absolute top-[8.5vh] mt-2 bg-white border rounded shadow-md  w-48 z-50">
-                  <ul>
-                    <li className="py-2 px-3 hover:bg-gray-100">
-                      <button className="w-full text-left flex items-center gap-2" onClick={handleSettingsClick}>
-                        <SettingsIcon />
-                        Cài đặt
-                      </button>
-                    </li>
-                    <li className="py-2 px-3 hover:bg-gray-100">
-                      <button className="w-full text-left flex items-center gap-2" onClick={handleAuthClick}>
-                        <LogOut />
-                        {userInfo ? "Logout" : "Login"}
-                      </button>
-                    </li>
+                <div ref={menuRef} className="absolute top-[8.5vh] mt-2 bg-white border rounded shadow-md  w-60 z-50">
+                  <ul className="space-y-4">
+                    <li className='flex justify-start ml-3 items-center  hover:bg-gray-20' >
+                      <ListOrdered />
+                      <a href="/orders" className="block p-2 rounded">Quản lý đơn hàng</a></li>
+                    <li className='flex justify-start ml-3 items-center  hover:bg-gray-200'>
+                      <BellRing />
+                      <a href="/notifications" className="block p-2 rounded">Thông báo</a></li>
+                    <li className='flex justify-start ml-3 items-center  hover:bg-gray-200'>
+                      <Heart />
+                      <a href="/favorites" className="block p-2 rounded">Sản phẩm yêu thích</a></li>
+                    <li className='flex justify-start ml-3 items-center  hover:bg-gray-200'>
+                      <Info />
+                      <a href="/account" className="block p-2 rounded">Thông tin tài khoản</a></li>
+                    <li className='flex justify-start ml-3 items-center  hover:bg-gray-200'>
+                      <FontAwesomeIcon icon={faLocationDot} />
+                      <a href="/address" className="block p-2 rounded">Số địa chỉ</a></li>
+                    <li className='flex justify-start ml-3 items-center  hover:bg-gray-200'>
+                      <Wallet />
+                      <a href="/vouchers" className="block p-2 rounded">Ví voucher</a></li>
+                    <li className='flex justify-start ml-3 items-center  hover:bg-gray-200'
+                      onClick={handleAuthClick}>
+                      <LogOut />
+                      <a className="block p-2 rounded">{userInfo == null || !userInfo.name ? "Login" : "Logout"}</a></li>
+                    <li className='flex justify-start ml-3 items-center  hover:bg-gray-200'
+                      onClick={handleAuthClick}></li>
+                    
                   </ul>
                 </div>
               )}
