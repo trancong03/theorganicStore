@@ -58,6 +58,7 @@ function App() {
 
         <Routes>
           <Route path="/" element={<Home onAddToCart={handleAddToCart}/>}/>
+          <Route path="/cart" element={<Cart cartItems={cartItems} />} />
           <Route path="/account/*" element={<Account user={userInfo} setUserInfo={setUserInfo} />}>
             <Route path="info" element={<InfomationAccount user={userInfo} setUserInfo={setUserInfo} />} />
             <Route path="reset-password" element={<ResetPassWord user={userInfo} />} />
