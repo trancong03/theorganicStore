@@ -42,7 +42,7 @@ const Footer = () => {
           <p className="text-xl font-medium mb-5">MEMBER</p>
           <ul className="flex flex-col gap-1 text-gray-400">
             <li>Trần Chí Công</li>
-            <li>Phạm Hồ Đăng Huy</li>
+            <li>Hoàng Phi Hùng</li>
             <li>Nguyễn Thị Hằng</li>
           </ul>
         </div>

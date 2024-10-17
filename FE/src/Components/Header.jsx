@@ -3,6 +3,8 @@ import { Heart, LogOut, Search, SettingsIcon, ShoppingCart as ShoppingCartIcon, 
 import Navbar from "./Navbar";
 import ProductList from "./ProductList";
 import CartItemShopping from "../Components/CartItemShopping";
+import { useNavigate } from 'react-router-dom';
+
 
 export default function Header({ onLoginClick, userInfo, setUserInfo, cartItems }) {
   const [isSticky, setIsSticky] = useState(false);
@@ -10,7 +12,7 @@ export default function Header({ onLoginClick, userInfo, setUserInfo, cartItems 
   const [isLoggedIn, setIsLoggedIn] = useState(userInfo ? true : false);
   const [isCartOpen, setIsCartOpen] = useState(false); // Trạng thái dropdown giỏ hàng
   const menuRef = useRef(null);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 100) {
@@ -57,7 +59,9 @@ export default function Header({ onLoginClick, userInfo, setUserInfo, cartItems 
     setIsLoggedIn(!isLoggedIn);
     setIsMenuOpen(false);
   };
-
+const handleCartClick = () => {
+    navigate('/cart'); // Navigate to the /cart page
+  };
   return (
     <div className={`transition-all duration-300 ${isSticky ? 'fixed top-0 left-0 w-full shadow-md z-50' : ''}`}>
       <div className="h-[10vh] flex items-center bg-white p-3">
@@ -82,10 +86,10 @@ export default function Header({ onLoginClick, userInfo, setUserInfo, cartItems 
           <Heart />
 
           {/* Icon giỏ hàng */}
-          <div onMouseEnter={() => setIsCartOpen(true)} onMouseLeave={() => setIsCartOpen(false)} className="relative cursor-pointer">
+          <div onClick={handleCartClick} onMouseEnter={() => setIsCartOpen(true)} onMouseLeave={() => setIsCartOpen(false)} className="relative cursor-pointer">
             <ShoppingCartIcon />
             {cartItems.length > 0 && (
-              <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">
+              <span className="absolute bottom-5 left-4 bg-red-500 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">
                 {cartItems.length}
               </span>
             )}
@@ -99,7 +103,8 @@ export default function Header({ onLoginClick, userInfo, setUserInfo, cartItems 
                   <ul>
                     {cartItems.map((item, index) => (
                       <li key={index}>
-                        <CartItemShopping 
+                        <CartItemShopping
+                          id={item.id} 
                           name={item.name}
                           price={item.price}
                           images={item.images}

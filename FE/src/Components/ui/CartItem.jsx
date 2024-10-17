@@ -1,4 +1,4 @@
-export default function CartItem({ name, price, images = [], onAddToCart }) {
+export default function CartItem({key, name, price, images = [], onAddToCart }) {
   const defaultImage = 'default.jpg';
 
   const handleAddToCart = () => {
