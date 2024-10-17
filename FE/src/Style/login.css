@@ -36,14 +36,14 @@
 }
 
 .login-container span {
-    font-size: 12px;
+    font-size: 11px;
 }
 
 .login-container a {
     color: #333;
     font-size: 14px;
     text-decoration: none;
-    margin: 15px 0;
+    margin: 10px 0;
 }
 
 .login-container button {
@@ -51,7 +51,7 @@
     border: 1px solid #b5eca6;
     background-color: #b5eca6;
     color: #FFFFFF;
-    font-size: 12px;
+    font-size: 10px;
     font-weight: bold;
     padding: 12px 45px;
     letter-spacing: 1px;

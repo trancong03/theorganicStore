@@ -19,7 +19,7 @@ function Navbar() {
         {/* Navigation links for large screens */}
         <div className="hidden md:flex space-x-4 mb-2 gap-8 w-[60vw] ml-[20vw] justify-between">
           <a
-            href="#"
+            href="/"
             onClick={() => setActiveLink("home")}
             className={`text-[#5b5858cc] text-lg font-arial font-bold px-3 py-2 ${
               activeLink === "home"

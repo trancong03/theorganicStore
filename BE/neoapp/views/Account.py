@@ -31,6 +31,28 @@ def login_view(request):
             return JsonResponse({'message': 'Internal Server Error'}, status=500)
     return JsonResponse({'message': 'Method not allowed'}, status=405)
 @csrf_exempt
+def SignUp_view(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            username = data.get('username')
+            password = data.get('password')
+            name = data.get('name')
+            email= data.get('email')
+            phone = data.get('phone')
+            admin = data.get('admin')
+
+            account_service = AccountService(neo4j_driver)
+            results = account_service.create_person_and_account(name, email, phone, username, password, admin)
+            if results['success']:
+                return JsonResponse({'results': results['account']}, status=201)  
+            else:
+                return JsonResponse({'message': results['message']}, status=400) 
+        except Exception as e:
+            logger.error(f"Error during login: {str(e)}")
+            return JsonResponse({'message': 'Internal Server Error'}, status=500)
+    return JsonResponse({'message': 'Method not allowed'}, status=405)
+@csrf_exempt
 def reset_password(request):
     if request.method == 'POST':
         try:

@@ -30,4 +30,7 @@ class AccountService:
         
     def reset_password(self,username,old_password,new_password):
         return self.account_repository.reset_password(username,old_password,new_password)
+    
+    def create_person_and_account(self, name, email, phone, username, password, admin):
+        return self.account_repository.create_person_and_account(name,email,phone,username,password,admin)
         
