@@ -20,9 +20,14 @@ class AccountService:
                     'birth_date': person.get('BirthDate'),
                     'gender': person.get('Gender'),
                     'avatar': person.get('Avatar'),
-                    'role': account.get('Role'),   
+                    'role': account.get('Role'),
+                    'username':account.get('Username'),   
                 }
             return None
         except Exception as e:
             print(f"Error in login: {e}")  # Ghi lại lỗi
             return None
+        
+    def reset_password(self,username,old_password,new_password):
+        return self.account_repository.reset_password(username,old_password,new_password)
+        

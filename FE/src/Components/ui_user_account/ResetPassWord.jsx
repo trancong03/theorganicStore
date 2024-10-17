@@ -21,8 +21,8 @@ export default function ResetPassWord({user}) {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    user_id: user.iduser,
-                    current_password: currentPassword,
+                    username: user.username,
+                    old_password: currentPassword,
                     new_password: newPassword,
                 }),
             });
@@ -30,7 +30,7 @@ export default function ResetPassWord({user}) {
             if (response.ok) {
                 alert('Mật khẩu đã được thay đổi thành công');
             } else {
-                alert('Có lỗi xảy ra: ' + data.error);
+                alert('Mật Khẩu hiện tại không đúng');
             }
         } catch (error) {
             console.error('Error:', error);

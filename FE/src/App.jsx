@@ -43,6 +43,8 @@ function App() {
   const handleAddToCart = (item) => {
     setCartItems((prevItems) => [...prevItems, item]);
   };
+  console.log(userInfo);
+  
   return (
     <>
       <BrowserRouter>

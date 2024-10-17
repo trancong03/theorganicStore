@@ -30,3 +30,22 @@ def login_view(request):
             logger.error(f"Error during login: {str(e)}")
             return JsonResponse({'message': 'Internal Server Error'}, status=500)
     return JsonResponse({'message': 'Method not allowed'}, status=405)
+@csrf_exempt
+def reset_password(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            username = data.get('username')
+            old_password = data.get('old_password')
+            new_password = data.get('new_password')
+            account_service  = AccountService(neo4j_driver)
+            print(f"Data{data}")
+            account = account_service.reset_password(username,old_password,new_password)
+            if account:
+                return JsonResponse({'message':'Reset password successfully'})
+            else:
+                return JsonResponse({'message': 'Invalid credentials'}, status=401)
+        except Exception as e:
+            print(f"Error in reset_password: {e}")
+            return JsonResponse({'message': 'Internal Server Error'}, status=500)
+    return JsonResponse({'message': 'Method not allowed'}, status=405)

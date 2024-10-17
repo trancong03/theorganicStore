@@ -13,4 +13,26 @@ class AccountRepository:
                 return None
             return result
         except Exception as e:
+            print(f"Error in reset_password: {e}")
             return None
+        
+    def reset_password(self,username,old_password,new_password):
+        account = self.get_account_by_credentials(username,old_password)
+        if account:
+            query = """
+                MATCH (a:Account {Username: $username})
+                SET a.Password = $new_password
+                RETURN a
+            """
+            try:
+                result = self.neo4j_driver.execute_query(query, {'username': username, 'new_password': new_password})
+                if not result:
+                    return None
+                return result[0]['a']  
+            except Exception as e:
+                print(f"Error in reset_password: {e}")
+                return None
+        else:
+            return None         
+
+
