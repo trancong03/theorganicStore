@@ -15,6 +15,7 @@ class AccountRepository:
         except Exception as e:
             print(f"Error in reset_password: {e}")
             return None
+        
     def check_username_exists(self, username):
         query = """ MATCH (a:Account {Username: $username}) RETURN a """
         try:

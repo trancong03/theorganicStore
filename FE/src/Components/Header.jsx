@@ -59,7 +59,7 @@ const handleCartClick = () => {
         <div className="ml-[15vw] mr-5">
           <img
             className="h-12 sm:h-8 md:h-10 lg:h-16 w-auto"
-            src="/image/logo.png"
+            src="/image/product/logo.png"
             alt="The CIU Logo"
           />
         </div>
@@ -117,7 +117,7 @@ const handleCartClick = () => {
                 className="text-[#5b5858cc] flex gap-2 items-center font-arial px-3 py-2"
               >
                 <img
-                  src={userInfo && userInfo.avatar ? `/image/${userInfo.avatar}` : "/image/icon.png"}
+                  src={userInfo && userInfo.avatar ? `/image/avatar/${userInfo.avatar}` : "/image/icon.png"}
                   alt=""
                   className="w-12 h-12 rounded-full"
                 />
