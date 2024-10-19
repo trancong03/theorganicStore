@@ -9,4 +9,5 @@ urlpatterns = [
     path('product/', Product.get_all_product, name='get_all_product'),
     path('get_product_on_cart/', Product.get_product_on_cart, name='get_product_on_cart'),
     path('add_product_to_Cart/', Product.add_product_to_Cart, name='add_product_to_Cart'),
+    path('remove_product_from_Cart/', Product.remove_product_from_Cart, name='remove_product_from_Cart'),
 ]

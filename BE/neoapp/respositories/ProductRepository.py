@@ -41,3 +41,20 @@ class ProductRepository:
         except Exception as e:
             print(f"Error in add_product_to_Cart: {e}")
             return {"success": False}  
+    def remove_product_from_Cart(self, id_product, id_person):
+        query = """
+        MATCH (p:Person {PersonID: $id_person})-[r:ADDED_TO_CART]->(prod:Product {ProductID: $id_product})
+        DELETE r
+        RETURN p, prod
+
+        """
+        parameters = {"id_person": id_person, "id_product": id_product}
+        try:
+            result = self.neo4j_driver.execute_query(query, parameters)
+            if result:
+                return {"success": True}  
+            else:
+                return {"success": False}  
+        except Exception as e:
+            print(f"Error in add_product_to_Cart: {e}")
+            return {"success": False}  

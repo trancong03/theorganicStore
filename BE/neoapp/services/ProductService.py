@@ -12,3 +12,5 @@ class ProductService:
     
     def add_product_to_Cart(self, id_product, id_person):
         return self.product_repository.add_product_to_Cart(id_product,id_person) 
+    def remove_product_from_Cart(self, id_product, id_person):
+        return self.product_repository.remove_product_from_Cart(id_product,id_person) 

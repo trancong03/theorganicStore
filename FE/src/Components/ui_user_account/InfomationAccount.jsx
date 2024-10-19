@@ -82,7 +82,7 @@ export default function InfomationAccount({ user, setUserInfo }) {
         if (file) {
             const reader = new FileReader();
             reader.onloadend = () => {
-                setAvatarImage(reader.result); // Cập nhật hình ảnh xem trước
+                setAvatarImage(reader.result); 
                 saveAvatar(file); 
             };
             setAvatarFile(file);
@@ -210,7 +210,7 @@ export default function InfomationAccount({ user, setUserInfo }) {
                   <input type="date"
                       value={user.birth_date || ""}
                       onChange={(e) => setUserInfo({ ...user, birth_date: e.target.value })}
-                      className="block w-[24vw] px-4 py-2 text-gray-500 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                      className="block w-[21vw] px-4 py-2 text-gray-500 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
 
               </div>
           </div>

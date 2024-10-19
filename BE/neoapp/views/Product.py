@@ -56,3 +56,20 @@ def add_product_to_Cart(request):
         except Exception as e:
             return JsonResponse({'message': 'Internal Server Error'}, status=500)
     return JsonResponse({'message': 'Method not allowed'}, status=405)
+
+@csrf_exempt
+def remove_product_from_Cart(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            idProduct = data.get('product_id')
+            idPerson = data.get('person_id')
+            product_service = ProductService(neo4j_driver)
+            result = product_service.remove_product_from_Cart(idProduct, idPerson)
+            if result:
+                return JsonResponse(result)
+            else:
+                return JsonResponse({'message': 'Invalid credentials'}, status=401)
+        except Exception as e:
+            return JsonResponse({'message': 'Internal Server Error'}, status=500)
+    return JsonResponse({'message': 'Method not allowed'}, status=405)

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Banner from "../Components/Banner";
-import CartItem from "../Components/ui/CartItem";
-export default function Home({ onAddToCart }) {
+import Product_list from "../Components/ui_product/product_list";
+export default function Home() {
   const [listProduct, setlistProduct] = useState([]);
   useEffect(() => {
     fetch('http://127.0.0.1:8000/api/product/')
@@ -13,24 +13,7 @@ export default function Home({ onAddToCart }) {
   return (
     <div className=" bg-white">
       <Banner products={productsBanner.sort(() => Math.random() - 0.5).slice(0, 10)} />
-      <div className="grid grid-cols-5 m-[5%]">
-        {
-        listProduct.map((product) => {
-          return (
-            <CartItem
-              key={product.ProductID}
-              name={product.Name}  
-              price={product.Price}  
-              images={product.ImageID || []}  
-              origin={product.Origin}  
-              expirationDate={product.ExpirationDate}  
-              unit={product.Unit}  
-              onAddToCart={() => onAddToCart(product)}  
-            />
-          );
-        })}
-      </div>
-
+      <Product_list listProduct={listProduct}/>
     </div>
   );
 }

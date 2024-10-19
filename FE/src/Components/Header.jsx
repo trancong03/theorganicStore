@@ -50,7 +50,7 @@ export default function Header({ onLoginClick, userInfo, setUserInfo }) {
     setIsMenuOpen(false); 
   };
 const handleCartClick = () => {
-    navigate('/cart'); 
+  navigate('account/cart'); 
   };
   const { cartItems } = useCart(); 
   return (
@@ -77,18 +77,18 @@ const handleCartClick = () => {
           <Heart />
           <div onClick={handleCartClick} onMouseEnter={() => setIsCartOpen(true)} onMouseLeave={() => setIsCartOpen(false)} className="relative cursor-pointer">
             <ShoppingCartIcon />
-            {cartItems.product && cartItems.product.length > 0 && (
+            {cartItems && cartItems.length > 0 && (
               <span className="absolute bottom-5 left-4 bg-red-500 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">
-                {cartItems.product.length}
+                {cartItems.length}
               </span>
             )}
 
             {isCartOpen && (
               <div className="absolute left-15 mt-2 w-[20rem] bg-white border rounded-lg shadow-lg p-4 z-50">
                 <h3 className="text-lg font-semibold mb-2">Sản phẩm trong giỏ hàng</h3>
-                {cartItems.product && cartItems.product.length  > 0 ? (
+                {cartItems && cartItems.length  > 0 ? (
                   <ul>
-                    {cartItems.product.map((item, index) => (
+                    {cartItems.map((item, index) => (
                       <li key={index}>
                         <CartItemShopping
                           key={item.ProductID}
@@ -121,8 +121,6 @@ const handleCartClick = () => {
                 />
                 {userInfo?.name || "Tài khoản"}
               </a>
-
-              {/* Menu người dùng */}
               {isMenuOpen && (
                 <div ref={menuRef} className="absolute top-[8.5vh] mt-2 bg-white border rounded shadow-md  w-60 z-50">
                   <ul className="space-y-4">

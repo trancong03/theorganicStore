@@ -18,7 +18,7 @@ const Footer = () => {
       <div className="flex flex-col sm:grid grid-cols-[1.5fr_1fr_1fr_1fr_1fr] gap-14 text-sm ml-5 mr-2">
         <div className="mt-10">
           <img
-            src="https://theciu.vn/img/logo-white.png"
+            src="image/logo.png"
             alt=""
             className="mb-5 w-32"
           />
@@ -87,7 +87,7 @@ const Footer = () => {
       </div>
       <div className="flex flex-col items-center">
         <img
-          src="https://theciu.vn/img/logo-white.png"
+          src="image/logo.png"
           alt=""
           className="h-12 sm:h-8 md:h-10 lg:h-16 w-auto"
         />

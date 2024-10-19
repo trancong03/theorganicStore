@@ -33,28 +33,6 @@ function App() {
     setShowLogin(false);
   };
 
-  const handleAddToCart = async (item, personID) => {
-    try {
-      const response = await fetch('http://127.0.0.1:8000/api/add_product_to_Cart/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          product_id: item.ProductID,
-          person_id: personID,
-        }),
-      });
-      const result = await response.json();
-      if (result.success) {
-        console.log('Product added to cart successfully');
-      } else {
-        console.log('Failed to add product to cart');
-      }
-    } catch (error) {
-      console.error('Error adding product to cart:', error);
-    }
-  };
 
   useEffect(() => {
     const storedUserInfo = localStorage.getItem('userInfo');
@@ -68,11 +46,10 @@ function App() {
       <BrowserRouter>
         <Header userInfo={userInfo} setUserInfo={setUserInfo} onLoginClick={handleLoginClick} />
         {showLogin && <DN closeLogin={closeLogin} onLoginSuccess={handleLoginSuccess} />}
-
         <Routes>
-          <Route path="/" element={<Home onAddToCart={(item) => handleAddToCart(item, userInfo.iduser)} />} />
-          <Route path="/cart" element={<Cart />} />
+          <Route path="/" element={<Home  />} />
           <Route path="/account/*" element={<Account user={userInfo} setUserInfo={setUserInfo} />}>
+            <Route path="cart" element={<Cart />} />
             <Route path="info" element={<InfomationAccount user={userInfo} setUserInfo={setUserInfo} />} />
             <Route path="reset-password" element={<ResetPassWord user={userInfo} />} />
           </Route>

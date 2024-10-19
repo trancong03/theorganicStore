@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom"; // Import Routes và Route
 import InfomationAccount from './../Components/ui_user_account/InfomationAccount';
 import ResetPassWord from './../Components/ui_user_account/ResetPassWord';
 import NavigationAccount from './../Components/ui_user_account/navigationAccount';
+import Cart from './Cart';
 
 export default function Account({ user, setUserInfo }) {
   return (
@@ -13,10 +14,9 @@ export default function Account({ user, setUserInfo }) {
       {/* Khối hiển thị nội dung */}
       <div className="flex-1">
         <Routes>
-          {/* Route mặc định cho InfomationAccount */}
           <Route path="/" element={<InfomationAccount user={user} setUserInfo={setUserInfo} />} />
-          {/* Route cho ResetPassWord */}
           <Route path="reset-password" element={<ResetPassWord user={user} />} />
+          <Route path="cart" element={<Cart />} />
         </Routes>
       </div>
     </div>  
