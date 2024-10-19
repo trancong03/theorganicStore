@@ -1,25 +1,25 @@
 import { ShoppingCartIcon } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaHeart } from "react-icons/fa";
 import { useCart } from "../context/CardContext";
 
 export default function CartItem({ Product }) {
   const defaultImage = 'default.jpg'; 
   const [isLiked, setIsLiked] = useState(false);
-  const {addToCart } = useCart();
-  const handleAddToLikes = () => {
-    
-  }
+  const { addToCart, likeProduct, isProductLiked } = useCart();
+  
   const handleToggleLike = () => {
     setIsLiked(!isLiked); 
   };
-  
+  useEffect(() => {
+    setIsLiked(isProductLiked(Product.ProductID));
+  }, [Product.ProductID, isProductLiked]);
   return (
     <div className="flex items-center justify-center flex-col mt-3">
       <div className='w-[15vw] bg-white rounded-2xl ml-3 mb-5 group shadow-2xl'>
         <div className='relative overflow-hidden flex items-center justify-center flex-col'>
           <img
-            src={`image/product/${Product.ImageID.length > 0 ? Product.ImageID[0] : defaultImage}`}
+            src={`/image/product/${Product.ImageID.length > 0 ? Product.ImageID[0] : defaultImage}`}
             alt={Product.Name || 'Sản phẩm không có tên'}
             className='w-auto h-[20rem] rounded-2xl shadow-2xl'
           />
@@ -34,10 +34,10 @@ export default function CartItem({ Product }) {
             <div>
               <button
                 className='w-full h-[3rem] bg-transparent border text-white font-bold rounded-full '
-                onClick={handleToggleLike} // Gọi hàm khi nhấp vào nút yêu thích
+                onClick={handleToggleLike}
               >
                 <div className="flex items-center justify-center gap-2"
-                  onClick={handleAddToLikes}
+                  onClick={() => { likeProduct(Product) }}
                 >
                   <FaHeart className={`transition-colors duration-300 ${isLiked ? 'text-red-500' : 'text-white'}`} size={20} /> {/* Thay đổi màu */}
                   <span>Thêm yêu thích</span>

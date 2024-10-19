@@ -10,4 +10,8 @@ urlpatterns = [
     path('get_product_on_cart/', Product.get_product_on_cart, name='get_product_on_cart'),
     path('add_product_to_Cart/', Product.add_product_to_Cart, name='add_product_to_Cart'),
     path('remove_product_from_Cart/', Product.remove_product_from_Cart, name='remove_product_from_Cart'),
+
+    path('get_product_on_like/', Product.get_product_on_like, name='get_product_on_like'),
+    path('add_product_to_like/', Product.add_product_to_like, name='add_product_to_like'),
+    path('remove_product_from_like/', Product.remove_product_from_like, name='remove_product_from_Cart'),
 ]

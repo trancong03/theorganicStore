@@ -8,9 +8,14 @@ class ProductService:
     
     def get_product_on_cart (self,id_person=None):
         return self.product_repository.get_product_on_cart(id_person)
-    
-    
     def add_product_to_Cart(self, id_product, id_person):
         return self.product_repository.add_product_to_Cart(id_product,id_person) 
     def remove_product_from_Cart(self, id_product, id_person):
         return self.product_repository.remove_product_from_Cart(id_product,id_person) 
+    
+    def get_product_on_like (self,id_person=None):
+        return self.product_repository.get_product_on_like(id_person)
+    def add_product_to_like(self, id_product, id_person):
+        return self.product_repository.add_product_to_like(id_product,id_person)
+    def remove_product_from_like(self, id_product, id_person):
+        return self.product_repository.remove_product_from_like(id_product,id_person) 

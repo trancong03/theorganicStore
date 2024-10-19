@@ -52,7 +52,11 @@ export default function Header({ onLoginClick, userInfo, setUserInfo }) {
 const handleCartClick = () => {
   navigate('account/cart'); 
   };
-  const { cartItems } = useCart(); 
+  const handleLikeClick = () => {
+    navigate('account/like-product');
+  };
+  const { cartItems, likeProducts } = useCart(); 
+  
   return (
     <div className={`transition-all duration-300 ${isSticky ? 'fixed top-0 left-0 w-full shadow-md z-50' : ''}`}>
       <div className="h-[10vh] flex items-center bg-white p-3">
@@ -73,9 +77,19 @@ const handleCartClick = () => {
             <Search />
           </button>
         </div>
-        <div className="ml-3 flex gap-4 justify-center items-center">
-          <Heart />
-          <div onClick={handleCartClick} onMouseEnter={() => setIsCartOpen(true)} onMouseLeave={() => setIsCartOpen(false)} className="relative cursor-pointer">
+        <div 
+        className="ml-3 flex gap-4 justify-center items-center">
+          <div className="relative cursor-pointer" onClick={handleLikeClick}>
+            <Heart />
+            {likeProducts && likeProducts.length > 0 && (
+              <span className="absolute bottom-5 left-4 bg-red-500 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">
+                {likeProducts.length}
+              </span>
+            )}
+          </div>
+          
+          <div onClick={handleCartClick} onMouseEnter={() => setIsCartOpen(true)} onMouseLeave={() => setIsCartOpen(false)} 
+          className="relative cursor-pointer">
             <ShoppingCartIcon />
             {cartItems && cartItems.length > 0 && (
               <span className="absolute bottom-5 left-4 bg-red-500 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">

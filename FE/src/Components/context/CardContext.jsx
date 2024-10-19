@@ -4,6 +4,8 @@ const CartContext = createContext();
 
 export const CartProvider = ({ children, personID }) => {
     const [cartItems, setCartItems] = useState([]);
+    const [likeProducts, setLikeProducts] = useState([]);
+    const [isLiked, setIsLiked] = useState(false);
 
     useEffect(() => {
         const fetchCartItems = async () => {
@@ -25,8 +27,24 @@ export const CartProvider = ({ children, personID }) => {
             } catch (error) {
                 console.error('Error fetching cart items:', error);
             }
+            try {
+                const response = await fetch('http://localhost:8000/api/get_product_on_like/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ person_id: personID }), 
+                });
+                const result = await response.json();
+                if (result.product) {
+                    setLikeProducts(result.product);
+                } else {
+                    console.error('Invalid response format:', result);
+                }
+            } catch (error) {
+                console.error('Error fetching cart items:', error);
+            }
         };
-
         fetchCartItems();
     }, [personID]); 
 
@@ -53,6 +71,38 @@ export const CartProvider = ({ children, personID }) => {
             console.error('Error adding product to cart:', error);
         }
     };
+    const likeProduct = async (item) => {
+        try {
+            const isAlreadyLiked = likeProducts.some(product => product.ProductID === item.ProductID);
+            const response = await fetch(isAlreadyLiked
+                ? 'http://127.0.0.1:8000/api/remove_product_from_like/'
+                : 'http://127.0.0.1:8000/api/add_product_to_like/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    product_id: item.ProductID,
+                    person_id: personID,
+                }),
+            });
+            const result = await response.json();
+            if (result.success) {
+                if (isAlreadyLiked) {
+                    setLikeProducts(prevItems => prevItems.filter(product => product.ProductID !== item.ProductID));
+                    console.log('Product removed from likes successfully');
+                } else {
+                    setLikeProducts(prevItems => [...prevItems, item]);
+                    console.log('Product added to likes successfully');
+                }
+            } else {
+                console.log('Failed to update product likes');
+            }
+        } catch (error) {
+            console.error('Error updating product likes:', error);
+        }
+    };
+
     const removeFromCart = async (itemId) => {
         try {
             const response = await fetch('http://127.0.0.1:8000/api/remove_product_from_Cart/', {
@@ -76,11 +126,13 @@ export const CartProvider = ({ children, personID }) => {
             console.error('Error Product remove from cart:', error);
         }
     };
-
+    const isProductLiked = (productId) => {
+        return likeProducts.some(product => product.ProductID === productId);
+    };
     return (
-        <CartContext.Provider value={{ cartItems, addToCart, removeFromCart }}>
+        <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, likeProduct, likeProducts, isProductLiked }}>
             {children}
-        </CartContext.Provider>
+        </CartContext.Provider> 
     );
 };
 
