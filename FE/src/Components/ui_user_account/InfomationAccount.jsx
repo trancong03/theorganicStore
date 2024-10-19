@@ -39,7 +39,6 @@ export default function InfomationAccount({ user, setUserInfo }) {
                     throw new Error('Something went wrong!');
                 }
             const result = await response.json();
-            console.log(result.person);
             localStorage.setItem('userInfo', JSON.stringify(result.person) );
             alert("Cập nhật thông tin thành công");
         } catch (error) {

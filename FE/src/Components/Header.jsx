@@ -5,10 +5,11 @@ import CartItemShopping from "../Components/CartItemShopping";
 import { faLocationDot, } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-export default function Header({ onLoginClick, userInfo, setUserInfo, cartItems }) {
+import { useCart } from "./context/CardContext";
+export default function Header({ onLoginClick, userInfo, setUserInfo }) {
   const [isSticky, setIsSticky] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isCartOpen, setIsCartOpen] = useState(false); // Trạng thái dropdown giỏ hàng
+  const [isCartOpen, setIsCartOpen] = useState(false); 
   const menuRef = useRef(null);
   const navigate = useNavigate();
   useEffect(() => {
@@ -26,8 +27,6 @@ export default function Header({ onLoginClick, userInfo, setUserInfo, cartItems 
   }, []);
  
   useEffect(() => {
-    console.log(userInfo);
-    
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
         setIsMenuOpen(false);
@@ -48,11 +47,12 @@ export default function Header({ onLoginClick, userInfo, setUserInfo, cartItems 
     if (userInfo == null || !userInfo.name) {
       onLoginClick();
     }
-    setIsMenuOpen(false); // Đóng menu
+    setIsMenuOpen(false); 
   };
 const handleCartClick = () => {
-    navigate('/cart'); // Navigate to the /cart page
+    navigate('/cart'); 
   };
+  const { cartItems } = useCart(); 
   return (
     <div className={`transition-all duration-300 ${isSticky ? 'fixed top-0 left-0 w-full shadow-md z-50' : ''}`}>
       <div className="h-[10vh] flex items-center bg-white p-3">
@@ -75,28 +75,26 @@ const handleCartClick = () => {
         </div>
         <div className="ml-3 flex gap-4 justify-center items-center">
           <Heart />
-          {/* Icon giỏ hàng */}
           <div onClick={handleCartClick} onMouseEnter={() => setIsCartOpen(true)} onMouseLeave={() => setIsCartOpen(false)} className="relative cursor-pointer">
             <ShoppingCartIcon />
-            {cartItems.length > 0 && (
+            {cartItems.product && cartItems.product.length > 0 && (
               <span className="absolute bottom-5 left-4 bg-red-500 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">
-                {cartItems.length}
+                {cartItems.product.length}
               </span>
             )}
 
-            {/* Dropdown giỏ hàng */}
             {isCartOpen && (
               <div className="absolute left-15 mt-2 w-[20rem] bg-white border rounded-lg shadow-lg p-4 z-50">
                 <h3 className="text-lg font-semibold mb-2">Sản phẩm trong giỏ hàng</h3>
-                {cartItems.length > 0 ? (
+                {cartItems.product && cartItems.product.length  > 0 ? (
                   <ul>
-                    {cartItems.map((item, index) => (
+                    {cartItems.product.map((item, index) => (
                       <li key={index}>
                         <CartItemShopping
-                          id={item.id} 
-                          name={item.name}
-                          price={item.price}
-                          images={item.images}
+                          key={item.ProductID}
+                          name={item.Name}
+                          price={item.Price}
+                          images={item.ImageID}
                         />
                       </li>
                     ))}

@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function MyShoppingCart({ cartItems }) {
+export default function MyShoppingCart() {
   return (
     <div className="absolute right-0 mt-2 w-[20rem] bg-white border rounded-lg shadow-lg p-4 z-50">
       <h3 className="text-lg font-semibold mb-2">Sản phẩm trong giỏ hàng</h3>

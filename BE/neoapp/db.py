@@ -12,10 +12,10 @@ class Neo4jDriver:
         with self.driver.session(database=self.db_name) as session:
             try:
                 result = session.run(query, parameters)
-                if result.peek() is None:  # Kiểm tra nếu không có bản ghi nào
+                if result.peek() is None: 
                     logger.error(f"Query returned no results: {query}, parameters: {parameters}")
                     return None
-                return result.data()  # Trả về danh sách các bản ghi
+                return result.data()  
             except Exception as e:
                 logger.error(f"Error executing query: {str(e)}")
                 return None

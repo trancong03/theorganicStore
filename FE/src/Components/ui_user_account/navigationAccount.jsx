@@ -15,7 +15,7 @@ export default function NavigationAccount({ user, setUserInfo }) {
             reader.onloadend = () => {
                 setAvatarImage(reader.result);
             };
-            setAvatarFile(file); // Lưu file để gửi lên máy chủ
+            setAvatarFile(file); 
             reader.readAsDataURL(file);
         }
     };

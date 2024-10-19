@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Banner from "../Components/Banner";
 import CartItem from "../Components/ui/CartItem";
-
-
 export default function Home({ onAddToCart }) {
   const [listProduct, setlistProduct] = useState([]);
-
   useEffect(() => {
     fetch('http://127.0.0.1:8000/api/product/')
       .then(response => response.json())
@@ -14,7 +11,7 @@ export default function Home({ onAddToCart }) {
   }, []);
   const productsBanner = [...listProduct];
   return (
-    <div className=" bg-[#f2f0f0]">
+    <div className=" bg-white">
       <Banner products={productsBanner.sort(() => Math.random() - 0.5).slice(0, 10)} />
       <div className="grid grid-cols-5 m-[5%]">
         {

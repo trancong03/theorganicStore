@@ -7,5 +7,6 @@ urlpatterns = [
     path('person/<int:person_id>/', Person.update_person, name='update_person'),
     path('person-update-avatar/<int:person_id>/', Person.update_image_person, name='update_person_image'),
     path('product/', Product.get_all_product, name='get_all_product'),
-
+    path('get_product_on_cart/', Product.get_product_on_cart, name='get_product_on_cart'),
+    path('add_product_to_Cart/', Product.add_product_to_Cart, name='add_product_to_Cart'),
 ]
