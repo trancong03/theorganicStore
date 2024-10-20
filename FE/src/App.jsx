@@ -11,12 +11,17 @@ import Header from "./Components/Header";
 import DN from './Components/DN';
 import Home from "./Pages/Home";
 import Cart from "./Pages/Cart";
+import Admin from "./Pages/Admin";
 import Account from './Pages/Account';
 import InfomationAccount from "./Components/ui_user_account/InfomationAccount";
 import ResetPassWord from "./Components/ui_user_account/ResetPassWord";
 import { CartProvider } from './Components/context/CardContext'; 
 import ProductLike from "./Pages/ProductLike";
 import Manage_address from "./Components/ui_user_account/manage_address";
+import AdminStores from "./Pages/Admin/AdminStores";
+import AdminOrders from "./Pages/Admin/AdminOrders";
+import AdminUsers from "./Pages/Admin/AdminUsers";
+import AdminProducts from "./Pages/Admin/AdminProducts";
 function App() {
   const [showLogin, setShowLogin] = useState(false);
   const [userInfo, setUserInfo] = useState({});
@@ -43,13 +48,33 @@ function App() {
     }
   }, []);
 
+  // const handleAddToCart = (item) => {
+  //   // Check if the item with the same ID already exists in the cart
+  //   const isDuplicate = cartItems.some(cartItem => cartItem.id === item.id);
+    
+  //   if (!isDuplicate) {
+  //     setCartItems((prevItems) => [...prevItems, item]);
+  //   } else {
+  //     alert("Sản phẩm đã có trong giỏ hàng!"); // Alert the user about the duplicate item
+  //   }
+  // };
+  
   return (
-    <CartProvider personID={userInfo.iduser}>
       <BrowserRouter>
+      <Routes>
+        <Route path="/admin/*" element={<Admin />}>
+          <Route path="stores" element={<AdminStores />} />
+          {/* <Route path="orders" element={<AdminOrders />} />
+          <Route path="users" element={<AdminUsers />} />
+          <Route path="products" element={<AdminProducts />} /> */}
+        </Route>
+      </Routes>
         <Header userInfo={userInfo} setUserInfo={setUserInfo} onLoginClick={handleLoginClick} />
         {showLogin && <DN closeLogin={closeLogin} onLoginSuccess={handleLoginSuccess} />}
+
         <Routes>
-          <Route path="/" element={<Home  />} />
+          <Route path="/" element={<Home onAddToCart={(item) => handleAddToCart(item, userInfo.iduser)} />} />
+          <Route path="/cart" element={<Cart />} />
           <Route path="/account/*" element={<Account user={userInfo} setUserInfo={setUserInfo} />}>
             <Route path="cart" element={<Cart />} />
             <Route path="like-product" element={<ProductLike />} />
@@ -57,11 +82,10 @@ function App() {
             <Route path="info" element={<InfomationAccount user={userInfo} setUserInfo={setUserInfo} />} />
             <Route path="reset-password" element={<ResetPassWord user={userInfo} />} />
           </Route>
-          <Route path="*" element={<ErrorPage />} />
+          {/* <Route path="*" element={<ErrorPage />} /> */}
         </Routes>
         <Footer />
-      </BrowserRouter>
-    </CartProvider>
+    </BrowserRouter>
   );
 }
 
