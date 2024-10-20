@@ -33,3 +33,29 @@ class AdminProductRepository:
         except Exception as e:
             print(f"Error in add_product: {e}")
             return {"success": False}  
+    
+    def get_product_store(self, id_store):
+        query = """
+            MATCH (p:Product)-[r:AVAILABLE_AT]->(s:Store {StoreID: $id_store})
+            RETURN p AS product, r.stock AS stock
+        """
+        parameters = {
+            "id_store": id_store,
+        }
+        try:
+            result = self.neo4j_driver.execute_query(query, parameters)
+            if result:
+                products = [record['product'] for record in result]  
+                stocks = [record['stock'] for record in result]      
+                return {
+                    "success": True,
+                    "data": {
+                        "products": products,
+                        "stocks": stocks,
+                    }
+                }
+            else:
+                return {"success": False, "data": {"products": [], "stocks": []}}  
+        except Exception as e:
+            print(f"Error in get_product_store: {e}")
+            return {"success": False, "data": {"products": [], "stocks": []}}  # Trả về danh sách rỗng khi gặp lỗi

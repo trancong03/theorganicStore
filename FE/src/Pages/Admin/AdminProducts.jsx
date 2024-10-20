@@ -1,15 +1,50 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 function AdminProducts() {
-  const stores = ['Store A', 'Store B', 'Store C']; // Example list of stores
+  const stores = [1, 2, 3]; // Example list of stores
 
+  const [listProduct, setlistProduct] = useState([]);
   const [selectedStore, setSelectedStore] = useState(stores[0]);
   const [products, setProducts] = useState([
     { id: 1, name: 'Product 1', price: 100, stock: 50, type: 'Type A', expiration: '2024-12-31', images: [], unit: 'kg', origin: 'Vietnam', store: 'Store A' },
     { id: 2, name: 'Product 2', price: 200, stock: 30, type: 'Type B', expiration: '2025-01-15', images: [], unit: 'liters', origin: 'Vietnam', store: 'Store B' },
     { id: 3, name: 'Product 3', price: 150, stock: 20, type: 'Type C', expiration: '2024-11-20', images: [], unit: 'pcs', origin: 'Vietnam', store: 'Store A' },
   ]);
+  useEffect(() => {
+    const id_store = selectedStore;
+    const fetchCartItems = async () => {
+      try {
+        const response = await fetch('http://127.0.0.1:8000/api/get_product_store/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ id_store }),
+        });
 
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const result = await response.json();
+       
+        if (result.products_with_stock) {
+          setlistProduct(result.products_with_stock);
+          console.log('Product fetched successfully:', listProduct);
+
+        } else {
+          console.log('Failed to fetch products');
+        }
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    };
+
+    fetchCartItems();
+  }, [selectedStore]);
+
+
+  console.log(listProduct);
   const [newProduct, setNewProduct] = useState({
     name: '',
     price: '',
@@ -83,7 +118,6 @@ function AdminProducts() {
     setSelectedStore(e.target.value);
   };
 
-  // Filter products based on selected store
   const filteredProducts = products.filter((product) => product.store === selectedStore);
 
   return (
@@ -195,7 +229,6 @@ function AdminProducts() {
             <th className="py-3 px-4 border-b text-center">Tên Sản Phẩm</th>
             <th className="py-3 px-4 border-b text-center">Giá</th>
             <th className="py-3 px-4 border-b text-center">Tồn Kho</th>
-            <th className="py-3 px-4 border-b text-center">Loại</th>
             <th className="py-3 px-4 border-b text-center">Đơn Vị</th>
             <th className="py-3 px-4 border-b text-center">Nguồn Gốc</th>
             <th className="py-3 px-4 border-b text-center">Hạn Sử Dụng</th>
@@ -204,19 +237,18 @@ function AdminProducts() {
           </tr>
         </thead>
         <tbody>
-          {filteredProducts.map((product) => (
-            <tr key={product.id} className="hover:bg-gray-50">
-              <td className="py-3 px-4 border-b text-center">{product.id}</td>
-              <td className="py-3 px-4 border-b text-center">{product.name}</td>
-              <td className="py-3 px-4 border-b text-center">{product.price}</td>
-              <td className="py-3 px-4 border-b text-center">{product.stock}</td>
-              <td className="py-3 px-4 border-b text-center">{product.type}</td>
-              <td className="py-3 px-4 border-b text-center">{product.unit}</td>
-              <td className="py-3 px-4 border-b text-center">{product.origin}</td>
-              <td className="py-3 px-4 border-b text-center">{product.expiration}</td>
+          {listProduct?.map((pro) => (
+            <tr key={pro.ProductID} className="hover:bg-gray-50">
+              <td className="py-3 px-4 border-b text-center">{pro.product.ProductID}</td>
+              <td className="py-3 px-4 border-b text-center">{pro.product.Name}</td>
+              <td className="py-3 px-4 border-b text-center">{pro.product.Price}</td>
+              <td className="py-3 px-4 border-b text-center">{pro.stock}</td>
+              <td className="py-3 px-4 border-b text-center">{pro.product.Unit}</td>
+              <td className="py-3 px-4 border-b text-center">{pro.product.Origin}</td>
+              <td className="py-3 px-4 border-b text-center">{pro.product.ExpirationDate}</td>
               <td className="py-3 px-4 border-b text-center">
-                {product.images.map((image, index) => (
-                  <img key={index} src={image} alt={`Product ${index}`} className="w-12 h-12 object-cover inline-block" />
+                {pro.product.ImageID.map((image, index) => (
+                  <img key={index} src={`/image/product/${image}`} alt={`Product ${index}`} className="w-12 h-12 object-cover inline-block" />
                 ))}
               </td>
               <td className="py-3 px-4 border-b text-center">
