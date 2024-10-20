@@ -64,9 +64,9 @@ function App() {
       <Routes>
         <Route path="/admin/*" element={<Admin />}>
           <Route path="stores" element={<AdminStores />} />
-          {/* <Route path="orders" element={<AdminOrders />} />
+          <Route path="orders" element={<AdminOrders />} />
           <Route path="users" element={<AdminUsers />} />
-          <Route path="products" element={<AdminProducts />} /> */}
+          <Route path="products" element={<AdminProducts />} />
         </Route>
       </Routes>
         <Header userInfo={userInfo} setUserInfo={setUserInfo} onLoginClick={handleLoginClick} />
