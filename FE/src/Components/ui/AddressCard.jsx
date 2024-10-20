@@ -1,5 +1,5 @@
 import React from 'react'
-import { FaHeart, FaPencilAlt } from "react-icons/fa";
+import {  FaPencilAlt } from "react-icons/fa";
 import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 

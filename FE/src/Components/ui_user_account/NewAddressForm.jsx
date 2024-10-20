@@ -2,16 +2,17 @@ import { faPlay } from "@fortawesome/free-solid-svg-icons";
 import React, { useState } from "react";
 import LocationSelector from "../ui/LocationSelector";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useCart } from "../context/CardContext";
 
-const NewAddressForm = ({ onSubmit, onClose }) => {
+const NewAddressForm = ({onClose }) => {
     const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
     const [address, setAddress] = useState("");
-
+    const { create_delivery_address } = useCart()
     const handleSubmit = (e) => {
         e.preventDefault();
         if (name && phone && address) {
-            onSubmit({ name, phone, address });
+            create_delivery_address(name, phone, address );
             setName("");
             setPhone("");
             setAddress("");
@@ -19,7 +20,8 @@ const NewAddressForm = ({ onSubmit, onClose }) => {
         } else {
             alert("Vui lòng nhập đầy đủ thông tin!");
         }
-    }; const [showLocationSelector, setShowLocationSelector] = useState(false);
+    }; 
+    const [showLocationSelector, setShowLocationSelector] = useState(false);
     const toggleLocationSelector = () => {
         setShowLocationSelector(!showLocationSelector);
     };

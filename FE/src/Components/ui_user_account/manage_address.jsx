@@ -1,38 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NewAddressForm from "./NewAddressForm";
 import AddressCard from "../ui/AddressCard";
+import { useCart } from "../context/CardContext";
 
 const AddressList = () => {
-    const [addresses, setAddresses] = useState([
-        { name: "Nguyễn Thị Lan", phone: "0812861704", address: "112 Cai Doi..." },
-        { name: "Chí Công Trần", phone: "0812861704", address: "22 Lê Chiêu..." },
-    ]);
+    const { address } = useCart();
+    const [addresses, setAddresses] = useState(address || []);
     const [showForm, setShowForm] = useState(false);
 
-    const handleAddAddress = (newAddress) => {
-        setAddresses([...addresses, newAddress]);
-    };
+    
     const handleDeleteAddress = (indexToDelete) => {
         const updatedAddresses = addresses.filter((_, index) => index !== indexToDelete);
         setAddresses(updatedAddresses);
     };
 
-    const handleEditAddress = (indexToEdit) => {
-        console.log("Sửa địa chỉ:", indexToEdit);
-    };
+    
     return (
         <div className="mx-auto bg-white max-w-full min-h-screen p-4 flex-1 justify-between items-center">
             <h2 className="text-4xl font-bold mb-6">Sổ địa chỉ</h2>
             <div>
-                {addresses.length === 0 ? (
+                {address.length === 0 ? (
                     <h1 className="text-gray-600 font-bold text-2xl">Chưa thêm địa chỉ</h1>
                 ) : (
-                    addresses.map((addr, index) => (
+                    address.map((addr, index) => (
                         <AddressCard
                             key={index}
-                            name={addr.name}
-                            phone={addr.phone}
-                            address={addr.address}
+                            name={addr.RecipientName}
+                            phone={addr.PhoneNumber}
+                            address={addr.DeliveryAddress}
                             onEdit={() => handleEditAddress(index)}
                             onDelete={() => handleDeleteAddress(index)}
                         />
@@ -49,7 +44,6 @@ const AddressList = () => {
 
                 {showForm && (
                     <NewAddressForm
-                        onSubmit={handleAddAddress}
                         onClose={() => setShowForm(false)}
                     />
                 )}

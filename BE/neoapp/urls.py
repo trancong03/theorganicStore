@@ -14,4 +14,7 @@ urlpatterns = [
     path('get_product_on_like/', Product.get_product_on_like, name='get_product_on_like'),
     path('add_product_to_like/', Product.add_product_to_like, name='add_product_to_like'),
     path('remove_product_from_like/', Product.remove_product_from_like, name='remove_product_from_Cart'),
+
+    path('get_delivery_address/', Product.get_delivery_address, name='get_delivery_address'),
+    path('create_delivery_address/', Product.create_delivery_address, name='create_delivery_address'),
 ]

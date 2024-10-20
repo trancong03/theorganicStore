@@ -122,3 +122,43 @@ def remove_product_from_like(request):
         except Exception as e:
             return JsonResponse({'message': 'Internal Server Error'}, status=500)
     return JsonResponse({'message': 'Method not allowed'}, status=405)
+#Địa chỉ nhận hàng
+@csrf_exempt
+def create_delivery_address(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            person_id = data.get('person_id')
+            recipient_name = data.get('recipient_name')
+            phone_number = data.get('phone_number')
+            delivery_address = data.get('delivery_address')
+
+            product_service = ProductService(neo4j_driver)
+            result = product_service.create_delivery_address(person_id,recipient_name,phone_number,delivery_address)
+            if result:
+                return JsonResponse(result)
+            else:
+                return JsonResponse({'message': 'Invalid credentials'}, status=401)
+        except Exception as e:
+            return JsonResponse({'message': 'Internal Server Error'}, status=500)
+    return JsonResponse({'message': 'Method not allowed'}, status=405)
+
+@csrf_exempt
+def get_delivery_address(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            idPerson = data.get('person_id')
+            if not idPerson:
+                return JsonResponse({'message': 'Person ID is required'}, status=400)
+            product_service = ProductService(neo4j_driver)
+            delivery_address_list = product_service.get_delivery_address(idPerson)
+            if delivery_address_list:
+                return JsonResponse({'delivery_address': delivery_address_list})
+            else:
+                return JsonResponse({'message': 'No address found for the given person'}, status=404)
+        except json.JSONDecodeError:
+            return JsonResponse({'message': 'Invalid JSON format'}, status=400)
+        except Exception as e:
+            return JsonResponse({'message': 'Internal Server Error', 'error': str(e)}, status=500)
+    return JsonResponse({'message': 'Method not allowed'}, status=405)

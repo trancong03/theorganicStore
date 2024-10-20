@@ -107,4 +107,35 @@ class ProductRepository:
         except Exception as e:
             print(f"Error in add_product_to_Cart: {e}")
             return {"success": False}  
+        #Địa chỉ nhận hàng
+    def create_delivery_address(self,person_id,recipient_name,phone_number,delivery_address):
+        create_delivery_address_query = """
+            MATCH (p:Person {PersonID: $person_id})
+            MERGE (a:Address {DeliveryAddress: $delivery_address})
+            ON CREATE SET a.RecipientName = $recipient_name, a.PhoneNumber = $phone_number
+            ON MATCH SET a.RecipientName = $recipient_name, a.PhoneNumber = $phone_number
+            MERGE (p)-[:DELIVERED_AT]->(a)
+            RETURN a
+        """
+        try:
+            result = self.neo4j_driver.execute_query(create_delivery_address_query, {'person_id': person_id,'recipient_name': recipient_name,'phone_number': phone_number,'delivery_address': delivery_address})
+            return {"success": True, "delivery_address": result}
+        except Exception as e:
+            print(f"Error occurred: {e}")
+            return {"success": False, "message": str(e)}
+        
+    def get_delivery_address(self, id_person=None):
+            query = """ MATCH (p:Person {PersonID: $person_id})-[:DELIVERED_AT]->(a:Address)
+                    RETURN a
+                    """
+            try:
+                result = self.neo4j_driver.execute_query(query,  {'person_id': id_person})
+                if not result:
+                    return [] 
+                return [record['a'] for record in result]
+            except Exception as e:
+                print(f"Error retrieving products from cart: {e}")
+                return []      
+            
+
       
