@@ -5,6 +5,7 @@ import ResetPassWord from './../Components/ui_user_account/ResetPassWord';
 import NavigationAccount from './../Components/ui_user_account/navigationAccount';
 import Cart from './Cart';
 import ProductLike from "./ProductLike";
+import Manage_address from "../Components/ui_user_account/manage_address";
 
 export default function Account({ user, setUserInfo }) {
   return (
@@ -19,6 +20,7 @@ export default function Account({ user, setUserInfo }) {
           <Route path="reset-password" element={<ResetPassWord user={user} />} />
           <Route path="cart" element={<Cart />} />
           <Route path="like-product" element={<ProductLike />} />
+          <Route path="manage-address" element={<Manage_address />} />
         </Routes>
       </div>
     </div>  

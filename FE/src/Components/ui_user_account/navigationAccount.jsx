@@ -46,11 +46,11 @@ export default function NavigationAccount({ user, setUserInfo }) {
                         <a href="/account/cart" className="block p-2 rounded">Sản phẩm trong giỏ hàng</a></li>
                     <li className='flex justify-start ml-3 items-center  hover:bg-gray-200'>
                         <Heart/>
-                        <a href="/favorites" className="block p-2 rounded">Sản phẩm yêu thích</a></li>
+                        <a href="/account/like-product" className="block p-2 rounded">Sản phẩm yêu thích</a></li>
 
                     <li className='flex justify-start ml-3 items-center  hover:bg-gray-200'>
                         <BookMarked />
-                        <a href="/address" className="block p-2 rounded">Quản lý địa chỉ</a></li>
+                        <a href="/account/manage-address" className="block p-2 rounded">Quản lý địa chỉ</a></li>
                     <li className='flex justify-start ml-3 items-center  hover:bg-gray-200'>
                         <Wallet/>
                         <a href="/vouchers" className="block p-2 rounded">Ví voucher</a></li>
