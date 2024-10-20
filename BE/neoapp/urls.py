@@ -17,7 +17,10 @@ urlpatterns = [
 
     path('get_delivery_address/', Product.get_delivery_address, name='get_delivery_address'),
     path('create_delivery_address/', Product.create_delivery_address, name='create_delivery_address'),
+    path('update-delivery-address/', Product.update_delivery_address, name='update_delivery_address'),
+    path('delete-delivery-address/', Product.delete_delivery_address, name='delete_delivery_address'),
 
     #admin
      path('get_product_store/', AdminProduct.get_product_store, name='get_product_store'),
+     
 ]

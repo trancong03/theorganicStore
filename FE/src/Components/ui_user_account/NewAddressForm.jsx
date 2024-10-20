@@ -1,34 +1,52 @@
 import { faPlay } from "@fortawesome/free-solid-svg-icons";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import LocationSelector from "../ui/LocationSelector";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useCart } from "../context/CardContext";
 
-const NewAddressForm = ({onClose }) => {
+const NewAddressForm = ({ address, onClose, onSubmit }) => {
     const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
-    const [address, setAddress] = useState("");
-    const { create_delivery_address } = useCart()
+    const [addressValue, setAddressValue] = useState(""); // Đổi tên biến để tránh xung đột với prop
+    const { create_delivery_address } = useCart();
+
+    // Sử dụng useEffect để điền thông tin nếu có địa chỉ chỉnh sửa
+    useEffect(() => {
+        if (address) {
+            setName(address.RecipientName || "");
+            setPhone(address.PhoneNumber || "");
+            setAddressValue(address.DeliveryAddress || "");
+        }
+    }, [address]);
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (name && phone && address) {
-            create_delivery_address(name, phone, address );
+        if (name && phone && addressValue) {
+            onSubmit({
+                DeliveryAddress: addressValue,
+                RecipientName: name,
+                PhoneNumber: phone,
+            });
             setName("");
             setPhone("");
-            setAddress("");
-            onClose(); // Đóng form sau khi thêm địa chỉ
+            setAddressValue("");
+            onClose(); // Đóng form sau khi thêm hoặc cập nhật địa chỉ
         } else {
             alert("Vui lòng nhập đầy đủ thông tin!");
         }
-    }; 
+    };
+
+
     const [showLocationSelector, setShowLocationSelector] = useState(false);
     const toggleLocationSelector = () => {
         setShowLocationSelector(!showLocationSelector);
     };
-    const updateAddress = (address) => {
-        setAddress(address)
+
+    const updateAddress = (newAddress) => {
+        setAddressValue(newAddress);
         toggleLocationSelector();
-    }; 
+    };
+
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 ">
             <div className="bg-white p-6 rounded-lg w-full max-w-2xl mx-auto relative">
@@ -38,7 +56,7 @@ const NewAddressForm = ({onClose }) => {
                 >
                     &times;
                 </button>
-                <h2 className="text-xl font-bold mb-4">Thêm địa chỉ mới</h2>
+                <h2 className="text-xl font-bold mb-4">{address ? "Chỉnh sửa địa chỉ" : "Thêm địa chỉ mới"}</h2>
 
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">
@@ -71,30 +89,29 @@ const NewAddressForm = ({onClose }) => {
                         />
                     </div>
 
-                    <div className="mb-4  border rounded-md">
-                        <label className="block text-sm text-slate-400  font-bold">
+                    <div className="mb-4 border rounded-md">
+                        <label className="block text-sm text-slate-400 font-bold">
                             Địa chỉ <span className="text-red-500">*</span>
                         </label>
                         <div className='flex text-slate-500'>
                             <input
                                 type="text"
                                 id="address"
-                                value={address}
+                                value={addressValue}
                                 name="address"
                                 readOnly
                                 onClick={toggleLocationSelector}
-                                className="w-full focus:outline-none "
+                                className="w-full focus:outline-none"
                             />
                             <FontAwesomeIcon icon={faPlay} />
                         </div>
                     </div>
 
-
                     <button
                         type="submit"
                         className="w-full py-2 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700"
                     >
-                        Thêm địa chỉ
+                        {address ? "Cập nhật địa chỉ" : "Thêm địa chỉ"}
                     </button>
                 </form>
             </div>
@@ -108,7 +125,7 @@ const NewAddressForm = ({onClose }) => {
                         >
                             &times;
                         </button>
-                        <LocationSelector updateAddress={updateAddress} /> 
+                        <LocationSelector updateAddress={updateAddress} />
                     </div>
                 </div>
             )}
