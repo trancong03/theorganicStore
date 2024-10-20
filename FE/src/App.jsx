@@ -1,10 +1,9 @@
-// src/App.js
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/pagination";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import Footer from "./Components/Footer";
 import ErrorPage from "./Components/ErrorPage";
 import Header from "./Components/Header";
@@ -22,6 +21,7 @@ import AdminStores from "./Pages/Admin/AdminStores";
 import AdminOrders from "./Pages/Admin/AdminOrders";
 import AdminUsers from "./Pages/Admin/AdminUsers";
 import AdminProducts from "./Pages/Admin/AdminProducts";
+
 function App() {
   const [showLogin, setShowLogin] = useState(false);
   const [userInfo, setUserInfo] = useState({});
@@ -40,7 +40,6 @@ function App() {
     setShowLogin(false);
   };
 
-
   useEffect(() => {
     const storedUserInfo = localStorage.getItem('userInfo');
     if (storedUserInfo) {
@@ -48,46 +47,58 @@ function App() {
     }
   }, []);
 
-  // const handleAddToCart = (item) => {
-  //   // Check if the item with the same ID already exists in the cart
-  //   const isDuplicate = cartItems.some(cartItem => cartItem.id === item.id);
-    
-  //   if (!isDuplicate) {
-  //     setCartItems((prevItems) => [...prevItems, item]);
-  //   } else {
-  //     alert("Sản phẩm đã có trong giỏ hàng!"); // Alert the user about the duplicate item
-  //   }
-  // };
-  
   return (
-  <CartProvider personID={userInfo? userInfo.iduser:"5"}>
-  <BrowserRouter>
+    <CartProvider personID={userInfo ? userInfo.iduser : "5"}>
+      <BrowserRouter>
+        <AppContent 
+          userInfo={userInfo} 
+          setUserInfo={setUserInfo} 
+          showLogin={showLogin} 
+          handleLoginClick={handleLoginClick} 
+          closeLogin={closeLogin} 
+          handleLoginSuccess={handleLoginSuccess} 
+        />
+      </BrowserRouter>
+    </CartProvider>
+  );
+}
+
+function AppContent({ userInfo, setUserInfo, showLogin, handleLoginClick, closeLogin, handleLoginSuccess }) {
+  const location = useLocation();
+  const isAdminPage = location.pathname.startsWith('/admin');
+
+  return (
+    <>
+      {!isAdminPage && (
+        <Header 
+          userInfo={userInfo} 
+          setUserInfo={setUserInfo} 
+          onLoginClick={handleLoginClick} 
+        />
+      )}
+      
+      {showLogin && <DN closeLogin={closeLogin} onLoginSuccess={handleLoginSuccess} />}
+
       <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/account/*" element={<Account user={userInfo} setUserInfo={setUserInfo} />}>
+          <Route path="cart" element={<Cart />} />
+          <Route path="like-product" element={<ProductLike />} />
+          <Route path="manage-address" element={<Manage_address />} />
+          <Route path="info" element={<InfomationAccount user={userInfo} setUserInfo={setUserInfo} />} />
+          <Route path="reset-password" element={<ResetPassWord user={userInfo} />} />
+        </Route>
         <Route path="/admin/*" element={<Admin />}>
           <Route path="stores" element={<AdminStores />} />
           <Route path="orders" element={<AdminOrders />} />
           <Route path="users" element={<AdminUsers />} />
           <Route path="products" element={<AdminProducts />} />
         </Route>
+        <Route path="*" element={<ErrorPage />} />
       </Routes>
-        <Header userInfo={userInfo} setUserInfo={setUserInfo} onLoginClick={handleLoginClick} />
-        {showLogin && <DN closeLogin={closeLogin} onLoginSuccess={handleLoginSuccess} />}
 
-        <Routes>
-          <Route path="/" element={<Home  />} />
-          <Route path="/account/*" element={<Account user={userInfo} setUserInfo={setUserInfo} />}>
-            <Route path="cart" element={<Cart />} />
-            <Route path="like-product" element={<ProductLike />} />
-            <Route path="manage-address" element={<Manage_address />} />
-            <Route path="info" element={<InfomationAccount user={userInfo} setUserInfo={setUserInfo} />} />
-            <Route path="reset-password" element={<ResetPassWord user={userInfo} />} />
-          </Route>
-          <Route path="*" element={<ErrorPage />} />
-        </Routes>
-        <Footer />
-    </BrowserRouter>
-    </CartProvider>
-    
+      {!isAdminPage && <Footer />}
+    </>
   );
 }
 
