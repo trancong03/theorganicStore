@@ -57,6 +57,7 @@ const handleCartClick = () => {
   };
   const { cartItems, likeProducts } = useCart(); 
   
+  
   return (
     <div className={`transition-all duration-300 ${isSticky ? 'fixed top-0 left-0 w-full shadow-md z-50' : ''}`}>
       <div className="h-[10vh] flex items-center bg-white p-3">
