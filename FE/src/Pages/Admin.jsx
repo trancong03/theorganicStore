@@ -5,7 +5,9 @@ import Sidebar from '../Components/Sidebar';
 import { SidebarItem } from '../Components/Sidebar';
 import { LayoutDashboard, Package, Receipt, UserCircle } from 'lucide-react';
 import AdminProducts from './Admin/AdminProducts';
-
+import AdminUsers from './Admin/AdminUsers'
+import AdminAccount from './Admin/AdminAccount';
+import AdminStores from './Admin/AdminStores';
 function Admin() {
   const [loading, setLoading] = useState(true);
   const { pathname } = useLocation();
@@ -34,14 +36,19 @@ function Admin() {
           <NavLink to="/admin/orders">
             <SidebarItem icon={<Receipt size={25} />} text="Đơn Hàng" active={pathname === '/admin/orders'} />
           </NavLink>
+          <NavLink to="/admin/account">
+            <SidebarItem icon={<UserCircle size={25} />} text="Tài khoản" active={pathname === '/admin/account'} />
+          </NavLink>
+          
         </Sidebar>
       </div>
       <div className="col-span-10">
         <Routes>
           <Route path="products" element={<AdminProducts />} />
-          <Route path="customers" element={<div>Khách Hàng Page</div>} />
-          <Route path="stores" element={<div>Cửa Hàng Page</div>} />
+          <Route path="customers" element={<AdminUsers />} />
+          <Route path="stores" element={<AdminStores/>} />
           <Route path="orders" element={<div>Đơn Hàng Page</div>} />
+          <Route path="account" element={<AdminAccount/>} />
         </Routes>
       </div>
     </div>
