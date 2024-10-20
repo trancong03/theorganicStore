@@ -5,8 +5,7 @@ const CartContext = createContext();
 export const CartProvider = ({ children, personID }) => {
     const [cartItems, setCartItems] = useState([]);
     const [likeProducts, setLikeProducts] = useState([]);
-    const [isLiked, setIsLiked] = useState(false);
-
+    const [address, setAddress] = useState([]);
     useEffect(() => {
         const fetchCartItems = async () => {
             if (!personID) return; // Kiểm tra nếu personID không tồn tại thì không fetch
@@ -44,10 +43,10 @@ export const CartProvider = ({ children, personID }) => {
             } catch (error) {
                 console.error('Error fetching cart items:', error);
             }
+            
         };
         fetchCartItems();
     }, [personID]); 
-
     const addToCart = async (item) => {
         try {
             const response = await fetch('http://127.0.0.1:8000/api/add_product_to_Cart/', {
@@ -71,6 +70,62 @@ export const CartProvider = ({ children, personID }) => {
             console.error('Error adding product to cart:', error);
         }
     };
+    const fetchCartItems = async () => {
+        if (!personID) return;
+        try {
+            const response = await fetch('http://localhost:8000/api/get_delivery_address/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ person_id: personID }),
+            });
+            const result = await response.json();
+            if (result.delivery_address) {
+                setAddress(result.delivery_address);
+            } else {
+                console.error('Invalid response format:', result);
+            }
+        } catch (error) {
+            console.error('Error fetching cart items:', error);
+        }
+    };
+    useEffect(() => {
+       
+        fetchCartItems();
+    }, [personID]); 
+    
+    const create_delivery_address = async (recipient_name, phone_number, delivery_address) => {
+        try {
+            const response = await fetch('http://127.0.0.1:8000/api/create_delivery_address/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    person_id: personID,
+                    recipient_name: recipient_name,
+                    phone_number: phone_number,
+                    delivery_address: delivery_address
+                }),
+            });
+            const result = await response.json();
+            if (result.success) {
+                await fetchCartItems(); 
+                setAddress(prevItems => [...prevItems, {
+                    recipient_name: recipient_name,
+                    phone_number: phone_number,
+                    delivery_address: delivery_address
+                }]);
+                console.log('Address added to cart successfully');
+            } else {
+                console.log('Failed to add Address to cart');
+            }
+        } catch (error) {
+            console.error('Error adding Address to cart:', error);
+        }
+    };
+
     const likeProduct = async (item) => {
         try {
             const isAlreadyLiked = likeProducts.some(product => product.ProductID === item.ProductID);
@@ -130,7 +185,9 @@ export const CartProvider = ({ children, personID }) => {
         return likeProducts.some(product => product.ProductID === productId);
     };
     return (
-        <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, likeProduct, likeProducts, isProductLiked }}>
+        <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, 
+            likeProduct, likeProducts, isProductLiked,
+            address, create_delivery_address }}>
             {children}
         </CartContext.Provider> 
     );

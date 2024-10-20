@@ -60,7 +60,8 @@ function App() {
   // };
   
   return (
-      <BrowserRouter>
+  <CartProvider personID={userInfo? userInfo.iduser:"5"}>
+  <BrowserRouter>
       <Routes>
         <Route path="/admin/*" element={<Admin />}>
           <Route path="stores" element={<AdminStores />} />
@@ -73,8 +74,7 @@ function App() {
         {showLogin && <DN closeLogin={closeLogin} onLoginSuccess={handleLoginSuccess} />}
 
         <Routes>
-          <Route path="/" element={<Home onAddToCart={(item) => handleAddToCart(item, userInfo.iduser)} />} />
-          <Route path="/cart" element={<Cart />} />
+          <Route path="/" element={<Home  />} />
           <Route path="/account/*" element={<Account user={userInfo} setUserInfo={setUserInfo} />}>
             <Route path="cart" element={<Cart />} />
             <Route path="like-product" element={<ProductLike />} />
@@ -82,10 +82,12 @@ function App() {
             <Route path="info" element={<InfomationAccount user={userInfo} setUserInfo={setUserInfo} />} />
             <Route path="reset-password" element={<ResetPassWord user={userInfo} />} />
           </Route>
-          {/* <Route path="*" element={<ErrorPage />} /> */}
+          <Route path="*" element={<ErrorPage />} />
         </Routes>
         <Footer />
     </BrowserRouter>
+    </CartProvider>
+    
   );
 }
 
