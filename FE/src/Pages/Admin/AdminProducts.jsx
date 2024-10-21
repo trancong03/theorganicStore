@@ -6,9 +6,9 @@ function AdminProducts() {
   const [listProduct, setlistProduct] = useState([]);
   const [selectedStore, setSelectedStore] = useState(stores[0]);
   const [products, setProducts] = useState([
-    { id: 1, name: 'Product 1', price: 100, stock: 50, type: 'Type A', expiration: '2024-12-31', images: [], unit: 'kg', origin: 'Vietnam', store: 'Store A' },
-    { id: 2, name: 'Product 2', price: 200, stock: 30, type: 'Type B', expiration: '2025-01-15', images: [], unit: 'liters', origin: 'Vietnam', store: 'Store B' },
-    { id: 3, name: 'Product 3', price: 150, stock: 20, type: 'Type C', expiration: '2024-11-20', images: [], unit: 'pcs', origin: 'Vietnam', store: 'Store A' },
+    { id: 1, name: 'Product 1', price: 100, stock: 50, expiration: '2024-12-31', images: [], unit: 'kg', origin: 'Vietnam', store: 'Store A' },
+    { id: 2, name: 'Product 2', price: 200, stock: 30, expiration: '2025-01-15', images: [], unit: 'liters', origin: 'Vietnam', store: 'Store B' },
+    { id: 3, name: 'Product 3', price: 150, stock: 20, expiration: '2024-11-20', images: [], unit: 'pcs', origin: 'Vietnam', store: 'Store A' },
   ]);
   useEffect(() => {
     const id_store = selectedStore;
@@ -49,7 +49,6 @@ function AdminProducts() {
     name: '',
     price: '',
     stock: '',
-    type: '',
     expiration: '',
     images: [],
     unit: '',
@@ -58,7 +57,7 @@ function AdminProducts() {
   });
 
   const handleAdd = () => {
-    if (!newProduct.name || !newProduct.price || !newProduct.stock || !newProduct.type || !newProduct.expiration || !newProduct.unit || !newProduct.origin) {
+    if (!newProduct.name || !newProduct.price || !newProduct.stock || !newProduct.expiration || !newProduct.unit || !newProduct.origin) {
       alert('Please fill in all fields.');
       return;
     }
@@ -77,7 +76,6 @@ function AdminProducts() {
       name: '',
       price: '',
       stock: '',
-      type: '',
       expiration: '',
       images: [],
       unit: '',
@@ -169,14 +167,6 @@ function AdminProducts() {
         />
         <input
           type="text"
-          name="type"
-          placeholder="Loại"
-          value={newProduct.type}
-          onChange={handleChange}
-          className="border px-2 py-1"
-        />
-        <input
-          type="text"
           name="unit"
           placeholder="Đơn Vị"
           value={newProduct.unit}
@@ -222,53 +212,61 @@ function AdminProducts() {
         </button>
       </div>
 
-      <table className="min-w-full bg-white border border-gray-300">
-        <thead>
-          <tr className="bg-gray-100">
-            <th className="py-3 px-4 border-b text-center">ID</th>
-            <th className="py-3 px-4 border-b text-center">Tên Sản Phẩm</th>
-            <th className="py-3 px-4 border-b text-center">Giá</th>
-            <th className="py-3 px-4 border-b text-center">Tồn Kho</th>
-            <th className="py-3 px-4 border-b text-center">Đơn Vị</th>
-            <th className="py-3 px-4 border-b text-center">Nguồn Gốc</th>
-            <th className="py-3 px-4 border-b text-center">Hạn Sử Dụng</th>
-            <th className="py-3 px-4 border-b text-center">Hình Ảnh</th>
-            <th className="py-3 px-4 border-b text-center">Hành Động</th>
-          </tr>
-        </thead>
-        <tbody>
-          {listProduct?.map((pro) => (
-            <tr key={pro.ProductID} className="hover:bg-gray-50">
-              <td className="py-3 px-4 border-b text-center">{pro.product.ProductID}</td>
-              <td className="py-3 px-4 border-b text-center">{pro.product.Name}</td>
-              <td className="py-3 px-4 border-b text-center">{pro.product.Price}</td>
-              <td className="py-3 px-4 border-b text-center">{pro.stock}</td>
-              <td className="py-3 px-4 border-b text-center">{pro.product.Unit}</td>
-              <td className="py-3 px-4 border-b text-center">{pro.product.Origin}</td>
-              <td className="py-3 px-4 border-b text-center">{pro.product.ExpirationDate}</td>
-              <td className="py-3 px-4 border-b text-center">
-                {pro.product.ImageID.map((image, index) => (
-                  <img key={index} src={`/image/product/${image}`} alt={`Product ${index}`} className="w-12 h-12 object-cover inline-block" />
-                ))}
-              </td>
-              <td className="py-3 px-4 border-b text-center">
-                <button
-                  onClick={() => handleEdit(product.id)}
-                  className="bg-blue-500 text-white px-2 py-1 rounded mr-2"
-                >
-                  Sửa
-                </button>
-                <button
-                  onClick={() => handleDelete(product.id)}
-                  className="bg-red-500 text-white px-2 py-1 rounded"
-                >
-                  Xóa
-                </button>
-              </td>
-            </tr>
+      <table className="min-w-full bg-white border border-gray-300 shadow-md rounded-lg overflow-hidden">
+  <thead className="bg-gray-200 text-gray-700">
+    <tr>
+      <th className="py-3 px-4 border-b text-center font-semibold">ID</th>
+      <th className="py-3 px-4 border-b text-center font-semibold">Tên Sản Phẩm</th>
+      <th className="py-3 px-4 border-b text-center font-semibold">Giá</th>
+      <th className="py-3 px-4 border-b text-center font-semibold">Tồn Kho</th>
+      <th className="py-3 px-4 border-b text-center font-semibold">Đơn Vị</th>
+      <th className="py-3 px-4 border-b text-center font-semibold">Nguồn Gốc</th>
+      <th className="py-3 px-4 border-b text-center font-semibold">Hạn Sử Dụng</th>
+      <th className="py-3 px-4 border-b text-center font-semibold">Hình Ảnh</th>
+      <th className="py-3 px-4 border-b text-center font-semibold">Hành Động</th>
+    </tr>
+  </thead>
+  <tbody className="text-gray-600">
+    {listProduct?.map((pro) => (
+      <tr key={pro.ProductID} className="hover:bg-gray-50 transition-colors duration-150">
+        <td className="py-3 px-4 border-b text-center">{pro.product.ProductID}</td>
+        <td className="py-3 px-4 border-b text-center">{pro.product.Name}</td>
+        <td className="py-3 px-4 border-b text-center">{pro.product.Price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</td>
+        <td className="py-3 px-4 border-b text-center">{pro.stock}</td>
+        <td className="py-3 px-4 border-b text-center">{pro.product.Unit}</td>
+        <td className="py-3 px-4 border-b text-center">{pro.product.Origin}</td>
+        <td className="py-3 px-4 border-b text-center">{pro.product.ExpirationDate}</td>
+        <td className="py-3 px-4 border-b text-center">
+          {pro.product.ImageID.map((image, index) => (
+            <img
+              key={index}
+              src={`/image/product/${image}`}
+              alt={`Product ${index}`}
+              className="w-12 h-12 object-cover inline-block mx-1"
+            />
           ))}
-        </tbody>
-      </table>
+        </td>
+        <td className="py-3 px-4 border-b text-center">
+          <div className="flex justify-center space-x-2">
+            <button
+              onClick={() => handleEdit(pro.ProductID)}
+              className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 transition duration-200"
+            >
+              Sửa
+            </button>
+            <button
+              onClick={() => handleDelete(pro.ProductID)}
+              className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition duration-200"
+            >
+              Xóa
+            </button>
+          </div>
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
     </div>
   );
 }

@@ -4,7 +4,7 @@ class ProductService:
     def __init__(self, neo4j_driver):
         self.product_repository = ProductRepository(neo4j_driver)
     def get_all_product(self):
-        return self.product_repository.get_all_product()
+        return self.product_repository.get_all_product(self)
     
     def get_product_on_cart (self,id_person=None):
         return self.product_repository.get_product_on_cart(id_person)
