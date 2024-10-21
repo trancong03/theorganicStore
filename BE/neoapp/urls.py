@@ -26,5 +26,6 @@ urlpatterns = [
     #category
     path('get_all_category/', Category.get_all_category, name='get_all_category'),
     path('get_product_category/', Category.get_product_category, name='get_product_category'),
+    path('get_product_search/', Category.get_product_search, name='get_product_search'),
     
 ]

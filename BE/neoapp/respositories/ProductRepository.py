@@ -76,16 +76,22 @@ class ProductRepository:
             print(f"Error in add_product_to_like: {e}")
             return {"success": False}  
     def get_product_on_like(self, id_person=None):
-        query = """ MATCH (p:Person{PersonID:$id_person})-[:LIKES]->(prod:Product)
-                    RETURN prod """
+        query = """ 
+        MATCH (p:Person {PersonID: $id_person})-[:LIKES]->(prod:Product)
+        RETURN prod
+        """
         try:
-            result = self.neo4j_driver.execute_query(query,  {'id_person': id_person})
-            if not result:
-                return [] 
+            # Thực hiện truy vấn
+            result = self.neo4j_driver.execute_query(query, {'id_person': id_person})
+            
+            if not result or len(result) == 0:
+                return []
             return [record['prod'] for record in result]
+        
         except Exception as e:
-            print(f"Error retrieving products from cart: {e}")
-            return []      
+            print(f"Error retrieving liked products: {e}")
+            return []  # Trả về mảng rỗng nếu có lỗi
+
     def remove_product_from_like(self, id_product, id_person):
         query = """
         MATCH (p:Person {PersonID: $id_person})-[r:LIKES]->(prod:Product {ProductID: $id_product})

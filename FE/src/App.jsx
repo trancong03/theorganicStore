@@ -22,6 +22,7 @@ import AdminOrders from "./Pages/Admin/AdminOrders";
 import AdminUsers from "./Pages/Admin/AdminUsers";
 import AdminProducts from "./Pages/Admin/AdminProducts";
 import CategoryProducts from "./Components/ui_product/product_category";
+import SearchProducts from "./Components/ui_product/product_search.jsx";
 
 function App() {
   const [showLogin, setShowLogin] = useState(false);
@@ -83,6 +84,7 @@ function AppContent({ userInfo, setUserInfo, showLogin, handleLoginClick, closeL
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/products/:categoryId" element={<CategoryProducts />} /> 
+        <Route path="/search_product/:product_name" element={<SearchProducts />} /> 
         <Route path="/account/*" element={<Account user={userInfo} setUserInfo={setUserInfo} />}>
           <Route path="cart" element={<Cart />} />
           <Route path="like-product" element={<ProductLike />} />

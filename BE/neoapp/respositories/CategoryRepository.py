@@ -23,3 +23,16 @@ class CategoryRepository:
         except Exception as e:
             print(f"Error retrieving products from cart: {e}")
             return []      
+    def get_product_search(self, product_name=None):
+        query = """ MATCH (p:Product)
+                    WHERE p.Name CONTAINS $product_name
+                    RETURN p """
+        print(f"Fetching products for category ID: {product_name}")
+        try:
+            result = self.neo4j_driver.execute_query(query,  {'product_name': product_name})
+            if not result:
+                return [] 
+            return [record['p'] for record in result]
+        except Exception as e:
+            print(f"Error retrieving products from cart: {e}")
+            return []      

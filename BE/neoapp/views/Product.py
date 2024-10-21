@@ -76,7 +76,7 @@ def remove_product_from_Cart(request):
 
 @csrf_exempt
 def get_product_on_like(request):
-    if request.method == 'POST':
+    if request.method == 'GET':
         try:
             data = json.loads(request.body)
             idPerson = data.get('person_id')
