@@ -41,4 +41,20 @@ def get_product_category(request):
         except Exception as e:
             return JsonResponse({'message': 'Internal Server Error'}, status=500)
     return JsonResponse({'message': 'Method not allowed'}, status=405)
+@csrf_exempt
+def get_product_search(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            product_name = data.get('product_name')
+            print(f"Product name:{product_name}")
+            category_service = CategoryService(neo4j_driver)
+            list_products = category_service.get_product_search(product_name)
+            if list_products:
+                return JsonResponse({'product': list_products }) 
+            else:
+               return JsonResponse({'product':  []}) 
+        except Exception as e:
+            return JsonResponse({'message': 'Internal Server Error'}, status=500)
+    return JsonResponse({'message': 'Method not allowed'}, status=405)
 

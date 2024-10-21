@@ -8,7 +8,6 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-# Khởi tạo driver một lần và sử dụng chung
 neo4j_driver = Neo4jDriver("bolt://localhost:7687", "neo4j", "cong3003", "neo4j")
 
 @csrf_exempt

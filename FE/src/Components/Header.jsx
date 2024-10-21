@@ -49,6 +49,7 @@ export default function Header({ onLoginClick, userInfo, setUserInfo }) {
     }
     setIsMenuOpen(false); 
   };
+  
 const handleCartClick = () => {
   navigate('account/cart'); 
   };
@@ -56,11 +57,18 @@ const handleCartClick = () => {
     navigate('account/like-product');
   };
   const { cartItems, likeProducts } = useCart(); 
-  
-  
+  const [searchQuery, setSearchQuery] = useState(''); 
+  const handleSearchClick = (event) => {
+    event.preventDefault();
+    
+    if (searchQuery.trim()) {
+      navigate(`/search_product/${searchQuery}`); 
+    }
+  };
+
   return (
     <div className={`transition-all duration-300 ${isSticky ? 'fixed top-0 left-0 w-full shadow-md z-50' : ''}`}>
-      <div className="h-[10vh] flex items-center bg-white p-3">
+      <div className="h-[10vh] flex items-center bg-white p-3 shadow-md">
         <div className="ml-[15vw] mr-5">
           <img
             className="h-12 sm:h-8 md:h-10 lg:h-16 w-auto"
@@ -73,8 +81,10 @@ const handleCartClick = () => {
             className="ml-2 w-[37vw] bg-transparent focus:outline-none placeholder-gray-500 text-gray-700"
             type="text"
             placeholder="Tìm sản phẩm..."
+            value={searchQuery} 
+            onChange={(e) => setSearchQuery(e.target.value)} 
           />
-          <button>
+          <button onClick={handleSearchClick}>
             <Search />
           </button>
         </div>
