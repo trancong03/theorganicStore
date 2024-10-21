@@ -1,10 +1,6 @@
 class ProductRepository:
     def __init__(self, neo4j_driver):
         self.neo4j_driver = neo4j_driver
-
-    
-
-
     def get_all_product(self):
         query = """ MATCH(N:Product) RETURN N   """
         try:
@@ -15,7 +11,7 @@ class ProductRepository:
         except Exception as e:
             print(f"Error in reset_password: {e}")
             return None        
-    
+    # Giỏ Hàng
     def get_product_on_cart(self, id_person=None):
         query = """ MATCH (p:Person{PersonID:$id_person})-[:ADDED_TO_CART]->(prod:Product)
                     RETURN prod """
@@ -174,7 +170,6 @@ class ProductRepository:
                 'delivery_address': delivery_address
             })
 
-            # Sau đó xóa node địa chỉ
             delete_address_query = """
                 MATCH (a:Address {DeliveryAddress: $delivery_address})
                 DELETE a
@@ -187,3 +182,4 @@ class ProductRepository:
         except Exception as e:
             print(f"Error occurred: {e}")
             return {"success": False, "message": str(e)}
+        # 

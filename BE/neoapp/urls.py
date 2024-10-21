@@ -1,5 +1,5 @@
 from django.urls import path
-from neoapp.views import Person,Account,Product,AdminProduct
+from neoapp.views import Person,Account,Product,AdminProduct,Category
 urlpatterns = [
     path('login/', Account.login_view, name='login'),
     path('signup/', Account.SignUp_view, name='signup'),
@@ -21,6 +21,10 @@ urlpatterns = [
     path('delete-delivery-address/', Product.delete_delivery_address, name='delete_delivery_address'),
 
     #admin
-     path('get_product_store/', AdminProduct.get_product_store, name='get_product_store'),
+    path('get_product_store/', AdminProduct.get_product_store, name='get_product_store'),
      
+    #category
+    path('get_all_category/', Category.get_all_category, name='get_all_category'),
+    path('get_product_category/', Category.get_product_category, name='get_product_category'),
+    
 ]
