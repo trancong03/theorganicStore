@@ -1,4 +1,5 @@
 from django.urls import path
+from BE.neoapp.views import Category
 from neoapp.views import Person, Account, Product, AdminProduct, AdminStore, AdminUser, AdminAccount  # Import AdminUser and AdminAccount
 
 urlpatterns = [
@@ -18,7 +19,8 @@ urlpatterns = [
 
     path('get_delivery_address/', Product.get_delivery_address, name='get_delivery_address'),
     path('create_delivery_address/', Product.create_delivery_address, name='create_delivery_address'),
-
+    path('update-delivery-address/', Product.update_delivery_address, name='update_delivery_address'),
+    path('delete-delivery-address/', Product.delete_delivery_address, name='delete_delivery_address'),
     # Admin product routes
     path('get_product_store/', AdminProduct.get_product_store, name='get_product_store'),
 
@@ -32,5 +34,10 @@ urlpatterns = [
 
     # Admin account routes
     path('add_account/', AdminAccount.add_account, name='add_account'),  # Route to add an account
-    path('get_all_accounts/', AdminAccount.get_all_accounts, name='get_all_accounts'),  # Route to get all accounts
+    path('get_all_accounts/', AdminAccount.get_all_accounts, name='get_all_accounts'),  # Route to get all account
+     
+    #category
+    path('get_all_category/', Category.get_all_category, name='get_all_category'),
+    path('get_product_category/', Category.get_product_category, name='get_product_category'),
+    
 ]

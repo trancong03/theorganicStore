@@ -124,7 +124,7 @@ const handleCartClick = () => {
         
 
           <div className="px-3 py-2 h-10 w-[20vw] bg-transparent rounded-3xl flex items-center justify-start relative">
-            <nav className="relative">
+            <nav>
               <a
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 className="text-[#5b5858cc] flex gap-2 items-center font-arial px-3 py-2"

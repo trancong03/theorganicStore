@@ -181,12 +181,15 @@ export const CartProvider = ({ children, personID }) => {
             console.error('Error Product remove from cart:', error);
         }
     };
+    const updateAddress = (newAddress) => {
+        setAddress(newAddress);
+    };
     const isProductLiked = (productId) => {
         return likeProducts.some(product => product.ProductID === productId);
     };
     return (
-        <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, 
-            likeProduct, likeProducts, isProductLiked,
+        <CartContext.Provider value={{ personID,cartItems, addToCart, removeFromCart, 
+            likeProduct, likeProducts, isProductLiked,updateAddress,
             address, create_delivery_address }}>
             {children}
         </CartContext.Provider> 

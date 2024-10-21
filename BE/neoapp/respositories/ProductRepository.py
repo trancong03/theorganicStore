@@ -1,10 +1,6 @@
 class ProductRepository:
     def __init__(self, neo4j_driver):
         self.neo4j_driver = neo4j_driver
-
-    
-
-
     def get_all_product(self):
         query = """ MATCH(N:Product) RETURN N   """
         try:
@@ -15,7 +11,7 @@ class ProductRepository:
         except Exception as e:
             print(f"Error in reset_password: {e}")
             return None        
-    
+    # Giỏ Hàng
     def get_product_on_cart(self, id_person=None):
         query = """ MATCH (p:Person{PersonID:$id_person})-[:ADDED_TO_CART]->(prod:Product)
                     RETURN prod """
@@ -138,4 +134,52 @@ class ProductRepository:
                 return []      
             
 
-      
+    def update_delivery_address(self, person_id, old_delivery_address, new_delivery_address, new_recipient_name=None, new_phone_number=None):
+        update_delivery_address_query = """
+            MATCH (p:Person {PersonID: $person_id})-[:DELIVERED_AT]->(a:Address {DeliveryAddress: $old_delivery_address})
+            SET a.DeliveryAddress = $new_delivery_address,
+                a.RecipientName = COALESCE($new_recipient_name, a.RecipientName),
+                a.PhoneNumber = COALESCE($new_phone_number, a.PhoneNumber)
+            RETURN a
+        """
+        try:
+            result = self.neo4j_driver.execute_query(update_delivery_address_query, {
+                'person_id': person_id,
+                'old_delivery_address': old_delivery_address,
+                'new_delivery_address': new_delivery_address,
+                'new_recipient_name': new_recipient_name,
+                'new_phone_number': new_phone_number
+            })
+            if not result:
+                return {"success": False, "message": "No address found to update."}
+
+            return {"success": True, "updated_address": result}
+        except Exception as e:
+            print(f"Error occurred: {e}")
+            return {"success": False, "message": str(e)}
+
+    def delete_delivery_address(self, person_id, delivery_address):
+        try:
+            # Xóa tất cả các mối quan hệ liên quan đến địa chỉ
+            delete_relationships_query = """
+                MATCH (p:Person {PersonID: $person_id})-[r:DELIVERED_AT]->(a:Address {DeliveryAddress: $delivery_address})
+                DELETE r
+            """
+            self.neo4j_driver.execute_query(delete_relationships_query, {
+                'person_id': person_id,
+                'delivery_address': delivery_address
+            })
+
+            delete_address_query = """
+                MATCH (a:Address {DeliveryAddress: $delivery_address})
+                DELETE a
+            """
+            self.neo4j_driver.execute_query(delete_address_query, {
+                'delivery_address': delivery_address
+            })
+
+            return {"success": True, "message": "Delivery address deleted successfully."}
+        except Exception as e:
+            print(f"Error occurred: {e}")
+            return {"success": False, "message": str(e)}
+        # 

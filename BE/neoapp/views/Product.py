@@ -162,3 +162,50 @@ def get_delivery_address(request):
         except Exception as e:
             return JsonResponse({'message': 'Internal Server Error', 'error': str(e)}, status=500)
     return JsonResponse({'message': 'Method not allowed'}, status=405)
+@csrf_exempt
+def update_delivery_address(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            person_id = data.get('person_id')
+            old_delivery_address = data.get('old_delivery_address')
+            new_delivery_address = data.get('new_delivery_address')
+            new_recipient_name = data.get('recipient_name')
+            new_phone_number = data.get('phone_number')
+
+            product_service = ProductService(neo4j_driver)
+            result = product_service.update_delivery_address(
+                person_id,
+                old_delivery_address,
+                new_delivery_address,
+                new_recipient_name,
+                new_phone_number
+            )
+            if result['success']:
+                return JsonResponse(result)
+            else:
+                return JsonResponse({'message': result['message']}, status=404)
+        except json.JSONDecodeError:
+            return JsonResponse({'message': 'Invalid JSON format'}, status=400)
+        except Exception as e:
+            return JsonResponse({'message': 'Internal Server Error', 'error': str(e)}, status=500)
+    return JsonResponse({'message': 'Method not allowed'}, status=405)
+@csrf_exempt
+def delete_delivery_address(request):
+    if request.method == 'DELETE':
+        try:
+            data = json.loads(request.body)
+            person_id = data.get('person_id')
+            delivery_address = data.get('delivery_address')
+
+            product_service = ProductService(neo4j_driver)
+            result = product_service.delete_delivery_address(person_id, delivery_address)
+            if result['success']:
+                return JsonResponse({'message': 'Address deleted successfully'})
+            else:
+                return JsonResponse({'message': result['message']}, status=404)
+        except json.JSONDecodeError:
+            return JsonResponse({'message': 'Invalid JSON format'}, status=400)
+        except Exception as e:
+            return JsonResponse({'message': 'Internal Server Error', 'error': str(e)}, status=500)
+    return JsonResponse({'message': 'Method not allowed'}, status=405)
